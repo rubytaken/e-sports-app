@@ -38,7 +38,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
         <Link href="/tournaments" className="inline-flex items-center gap-1.5 text-xs text-text-2 hover:text-text-0 transition-colors mb-8">
           <ArrowLeft size={13} /> {t("back")}
         </Link>
@@ -47,7 +47,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
         <div className="rounded-2xl border border-border bg-surface-1 p-6 sm:p-8 mb-8">
           <div className="flex flex-col sm:flex-row items-start gap-5">
             {tournament.league?.image_url && (
-              <div className="h-16 w-16 shrink-0 rounded-xl bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center">
+              <div className="h-16 w-16 shrink-0 rounded-xl bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
                 <Image src={tournament.league.image_url} alt="" width={44} height={44} className="object-contain" />
               </div>
             )}
@@ -124,7 +124,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                         <td className="py-3 px-4">
                           {s.team ? (
                             <Link href={`/teams/${s.team.slug}`} className="flex items-center gap-2 hover:text-accent transition-colors">
-                              <div className="h-6 w-6 rounded bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
+                              <div className="h-6 w-6 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
                                 {s.team.image_url ? <Image src={s.team.image_url} alt="" width={18} height={18} className="object-contain" /> :
                                   <span className="text-[8px] font-bold text-text-2">{s.team.acronym?.[0]}</span>}
                               </div>
@@ -160,7 +160,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                 {teams.data.map((team) => (
                   <Link key={team.id} href={`/teams/${team.slug}`}>
                     <div className="rounded-xl border border-border bg-surface-1 p-4 text-center card-hover hover:border-border-hover">
-                      <div className="h-10 w-10 mx-auto rounded-md bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center mb-2">
+                      <div className="h-10 w-10 mx-auto rounded-md bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center mb-2">
                         {team.image_url ? <Image src={team.image_url} alt="" width={32} height={32} className="object-contain" /> :
                           <span className="text-[10px] font-bold text-text-2">{team.acronym?.[0]}</span>}
                       </div>
@@ -183,7 +183,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                   const bs1 = b.match?.results?.[0]?.score ?? 0;
                   const bs2 = b.match?.results?.[1]?.score ?? 0;
                   return (
-                    <div key={b.match_id} className="rounded-lg border border-border bg-surface-1 p-4">
+                    <div key={b.match_id} className="rounded-xl border border-border bg-surface-1 p-4">
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-[10px] text-text-2 font-medium">{b.match?.name || `Match ${b.position}`}</span>
                         <StatusBadge status={b.match?.status as MatchStatus} />
@@ -192,7 +192,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                         <div className="flex items-center justify-between rounded-md bg-surface-0 px-3 py-2">
                           <div className="flex items-center gap-2">
                             {bt1?.image_url && (
-                              <div className="h-5 w-5 rounded bg-logo-bg ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center">
+                              <div className="h-5 w-5 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
                                 <Image src={bt1.image_url} alt="" width={14} height={14} className="object-contain" />
                               </div>
                             )}
@@ -203,7 +203,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                         <div className="flex items-center justify-between rounded-md bg-surface-0 px-3 py-2">
                           <div className="flex items-center gap-2">
                             {bt2?.image_url && (
-                              <div className="h-5 w-5 rounded bg-logo-bg ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center">
+                              <div className="h-5 w-5 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
                                 <Image src={bt2.image_url} alt="" width={14} height={14} className="object-contain" />
                               </div>
                             )}

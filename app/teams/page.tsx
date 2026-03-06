@@ -1,8 +1,8 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { useTeamsPaginated } from "@/lib/api/teams";
 import { GameFilter } from "@/components/shared/game-filter";
 import { SearchInput } from "@/components/shared/search-input";
@@ -14,7 +14,7 @@ import { PageTransition, StaggerContainer, StaggerItem } from "@/components/shar
 import { useGameFilter } from "@/hooks/use-game-filter";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useLocale } from "@/hooks/use-locale";
-import type { QueryParams } from "@/lib/api/types";
+import type { QueryParams, Team } from "@/lib/api/types";
 
 const PAGE_SIZE = 30;
 
@@ -32,6 +32,16 @@ function Content() {
   const { data, isLoading, isError, refetch } = useTeamsPaginated(page, PAGE_SIZE, activeGame || undefined, params);
   const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0;
 
+  // Client-side re-sort: prioritize teams with images and active videogame
+  const sortedTeams = useMemo(() => {
+    if (!data?.data) return [];
+    return [...data.data].sort((a: Team, b: Team) => {
+      const scoreA = (a.image_url ? 10 : 0) + (a.current_videogame ? 5 : 0) + (a.players?.length ? 3 : 0);
+      const scoreB = (b.image_url ? 10 : 0) + (b.current_videogame ? 5 : 0) + (b.players?.length ? 3 : 0);
+      return scoreB - scoreA;
+    });
+  }, [data?.data]);
+
   // Reset page when search changes
   const handleSearch = (v: string) => {
     setSearch(v);
@@ -40,7 +50,7 @@ function Content() {
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
         <div className="flex items-center gap-3 mb-1">
           <h1 className="text-lg font-semibold text-text-0">{t("teams.title")}</h1>
           {data && data.total > 0 && (
@@ -58,15 +68,15 @@ function Content() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={() => refetch()} />
-        ) : data?.data.length ? (
+        ) : sortedTeams.length ? (
           <>
             <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-              {data.data.map((team) => (
+              {sortedTeams.map((team) => (
                 <StaggerItem key={team.id}>
                   <Link href={`/teams/${team.slug}`}>
                     <div className="rounded-xl border border-border bg-surface-1 p-4 text-center card-hover hover:border-border-hover">
-                      <div className="h-10 w-10 mx-auto rounded-md bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center mb-2">
-                        {team.image_url ? <Image src={team.image_url} alt={team.name} width={32} height={32} className="object-contain" /> :
+                      <div className="h-10 w-10 mx-auto rounded-md bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center mb-2">
+                        {team.image_url ? <SafeImage src={team.image_url} alt={team.name} width={32} height={32} className="object-contain" fallbackText={team.acronym?.[0] || "?"} fallbackClassName="text-[10px] font-bold text-text-2" /> :
                           <span className="text-[10px] font-bold text-text-2">{team.acronym?.[0] || "?"}</span>}
                       </div>
                       <p className="text-xs font-medium text-text-0 truncate">{team.name}</p>
@@ -79,7 +89,7 @@ function Content() {
             <Pagination
               currentPage={page}
               totalPages={totalPages}
-              totalItems={data.total}
+              totalItems={data?.total ?? 0}
               onPageChange={setPage}
             />
           </>

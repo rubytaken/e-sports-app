@@ -13,46 +13,59 @@
   --color-border: var(--bd);
   --color-border-hover: var(--bd-h);
 
-  --color-accent: #10b981;
-  --color-accent-hover: #34d399;
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-h);
+  --color-accent-dim: var(--accent-dim);
 
-  --color-live: #ef4444;
-  --color-blue: #3b82f6;
+  --color-live: #ff4655;
+  --color-blue: #5865f2;
+  --color-win: #00e5a0;
+  --color-loss: #ff4655;
 
   --color-logo-bg: var(--logo-bg);
 
-  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Playfair Display", Georgia, serif;
+  --color-tier-s: #fbbf24;
+  --color-tier-a: #a78bfa;
+  --color-tier-b: #60a5fa;
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
 }
 
-/* ---------- LIGHT (default) ---------- */
+/* ---------- DARK (default) ---------- */
 :root {
-  --s0: #ffffff;
-  --s1: #f9fafb;
-  --s2: #f3f4f6;
-  --s3: #e5e7eb;
-  --t0: #111827;
-  --t1: #6b7280;
-  --t2: #9ca3af;
-  --bd: #e5e7eb;
-  --bd-h: #d1d5db;
-  --logo-bg: #ffffff;
-  color-scheme: light;
+  --s0: #0a0e16;
+  --s1: #0f1420;
+  --s2: #151a28;
+  --s3: #1c2235;
+  --t0: #eaf0ff;
+  --t1: #8b95a8;
+  --t2: #565e70;
+  --bd: #1c2235;
+  --bd-h: #2a3148;
+  --logo-bg: #151a28;
+  --accent: #00e5a0;
+  --accent-h: #00ffb3;
+  --accent-dim: rgba(0, 229, 160, 0.08);
+  color-scheme: dark;
 }
 
-/* ---------- DARK ---------- */
-.dark {
-  --s0: #09090b;
-  --s1: #111113;
-  --s2: #18181b;
-  --s3: #27272a;
-  --t0: #fafafa;
-  --t1: #a1a1aa;
-  --t2: #71717a;
-  --bd: #27272a;
-  --bd-h: #3f3f46;
-  --logo-bg: #18181b;
-  color-scheme: dark;
+/* ---------- LIGHT ---------- */
+.light {
+  --s0: #f8f9fc;
+  --s1: #ffffff;
+  --s2: #eef0f5;
+  --s3: #dde1ea;
+  --t0: #0f172a;
+  --t1: #475569;
+  --t2: #94a3b8;
+  --bd: #e2e8f0;
+  --bd-h: #cbd5e1;
+  --logo-bg: #ffffff;
+  --accent: #059669;
+  --accent-h: #10b981;
+  --accent-dim: rgba(5, 150, 105, 0.06);
+  color-scheme: light;
 }
 
 html {
@@ -67,87 +80,161 @@ body {
   transition: background-color 0.2s, color 0.2s;
 }
 
-::-webkit-scrollbar { width: 5px; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--bd-h); }
 
 ::selection {
-  background: var(--color-accent);
+  background: var(--accent);
   color: #fff;
 }
 
+/* ---- LIVE pulse ---- */
 @keyframes pulse-live {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50% { opacity: 0.3; }
 }
 .live-dot {
   animation: pulse-live 1.5s ease-in-out infinite;
 }
 
-/* Hero gradient background */
+/* ---- Neon glow keyframes ---- */
+@keyframes neon-border {
+  0%, 100% { border-color: rgba(0, 229, 160, 0.15); }
+  50% { border-color: rgba(0, 229, 160, 0.35); }
+}
+.neon-border-pulse {
+  animation: neon-border 2.5s ease-in-out infinite;
+}
+
+/* ---- Hero gradient ---- */
 .hero-gradient {
-  background: linear-gradient(135deg, var(--s1) 0%, var(--s0) 50%, var(--s1) 100%);
+  background: linear-gradient(180deg, var(--s1) 0%, var(--s0) 100%);
   position: relative;
   overflow: hidden;
 }
-
 .hero-gradient::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(ellipse at 30% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 50%);
+  top: -40%;
+  left: -20%;
+  width: 140%;
+  height: 180%;
+  background:
+    radial-gradient(ellipse at 25% 0%, rgba(0, 229, 160, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 20%, rgba(88, 101, 242, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
-
-.dark .hero-gradient::before {
-  background: radial-gradient(ellipse at 30% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+.light .hero-gradient::before {
+  background:
+    radial-gradient(ellipse at 25% 0%, rgba(5, 150, 105, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 20%, rgba(88, 101, 242, 0.04) 0%, transparent 50%);
 }
 
-/* Card hover effect */
+/* ---- Card hover ---- */
 .card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.08), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.4);
+  border-color: var(--bd-h);
 }
-.dark .card-hover:hover {
-  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3), 0 4px 10px -5px rgba(0, 0, 0, 0.2);
+.light .card-hover:hover {
+  box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.08);
 }
 
-/* Stat card shimmer */
+/* ---- Live card glow ---- */
+.live-card {
+  border-color: rgba(255, 70, 85, 0.25) !important;
+  box-shadow: 0 0 20px -4px rgba(255, 70, 85, 0.1);
+}
+.live-card:hover {
+  box-shadow: 0 0 30px -4px rgba(255, 70, 85, 0.15);
+}
+
+/* ---- Skeleton shimmer ---- */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--s2) 0%,
+    var(--s3) 50%,
+    var(--s2) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
 
+/* ---- Stat shimmer ---- */
 .stat-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(16, 185, 129, 0.05) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 229, 160, 0.03) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 3s ease-in-out infinite;
 }
 
-/* Form wizard step indicator */
+/* ---- Neon text glow ---- */
+.neon-text {
+  text-shadow: 0 0 20px rgba(0, 229, 160, 0.3), 0 0 40px rgba(0, 229, 160, 0.1);
+}
+
+/* ---- Step indicator ---- */
 .step-active {
-  background: linear-gradient(135deg, #10b981, #34d399);
+  background: linear-gradient(135deg, var(--accent), var(--accent-h));
   color: white;
 }
-
 .step-completed {
-  background: #10b981;
+  background: var(--accent);
   color: white;
 }
 
-/* Win/Loss indicators */
-.win-indicator { color: #10b981; }
-.loss-indicator { color: #ef4444; }
+/* ---- Win/Loss ---- */
+.win-indicator { color: var(--color-win); }
+.loss-indicator { color: var(--color-loss); }
 
-/* Scrollbar for modals */
+/* ---- Custom scrollbar for modals ---- */
 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 9999px; }
+
+/* ---- Header glow line ---- */
+.header-glow {
+  position: relative;
+}
+.header-glow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+  opacity: 0.15;
+}
+
+/* ---- Game icon badge active ---- */
+.game-tab-active {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-color: rgba(0, 229, 160, 0.2);
+}
+.light .game-tab-active {
+  background: rgba(5, 150, 105, 0.08);
+  color: #059669;
+  border-color: rgba(5, 150, 105, 0.2);
+}
+
+/* ---- Featured match card gradient overlay ---- */
+.featured-gradient {
+  background: linear-gradient(135deg, rgba(0, 229, 160, 0.04) 0%, rgba(88, 101, 242, 0.04) 100%);
+}
+
+/* ---- Tournament progress bar ---- */
+.tournament-progress {
+  background: linear-gradient(90deg, var(--accent), rgba(88, 101, 242, 0.8));
+}

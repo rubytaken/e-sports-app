@@ -38,9 +38,9 @@ function Content() {
 
   const tiers = [
     { key: "", label: t("tournaments.tiers.all") },
-    { key: "s", label: "S" },
-    { key: "a", label: "A" },
-    { key: "b", label: "B" },
+    { key: "s", label: "S", style: "text-tier-s" },
+    { key: "a", label: "A", style: "text-tier-a" },
+    { key: "b", label: "B", style: "text-tier-b" },
   ];
 
   const handleTabChange = (key: "running" | "upcoming" | "past") => {
@@ -55,32 +55,40 @@ function Content() {
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
-        <h1 className="text-lg font-semibold text-text-0 mb-1">{t("tournaments.title")}</h1>
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
+        <h1 className="text-xl font-bold text-text-0 mb-1">{t("tournaments.title")}</h1>
         <p className="text-xs text-text-2 mb-6">{t("tournaments.subtitle")}</p>
 
         <div className="mb-6"><GameFilter /></div>
 
         <div className="flex flex-wrap items-center gap-4 mb-6">
-          <div className="flex gap-1 border-b border-border pb-px">
+          {/* Tabs */}
+          <div className="flex gap-1 border-b border-border">
             {tabs.map((tb) => (
               <button key={tb.key} onClick={() => handleTabChange(tb.key)}
                 className={cn(
-                  "rounded-t-md px-4 py-2 text-xs font-medium transition-colors",
-                  tab === tb.key
-                    ? "bg-surface-2 text-text-0 border-b-2 border-accent"
-                    : "text-text-2 hover:text-text-1"
+                  "relative px-4 py-2.5 text-xs font-semibold transition-all",
+                  tab === tb.key ? "text-accent" : "text-text-2 hover:text-text-1"
                 )}>
                 {tb.label}
+                {tab === tb.key && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-accent" />
+                )}
               </button>
             ))}
           </div>
           <div className="h-5 w-px bg-border hidden sm:block" />
+          {/* Tier filter */}
           <div className="flex gap-1">
             {tiers.map((ti) => (
               <button key={ti.key} onClick={() => handleTierChange(ti.key)}
-                className={cn("rounded-md px-2.5 py-1 text-[11px] font-semibold transition-colors",
-                  tier === ti.key ? "bg-accent/10 text-accent" : "text-text-2 hover:text-text-1")}>
+                className={cn(
+                  "rounded-lg border px-3 py-1.5 text-[11px] font-bold transition-all",
+                  tier === ti.key
+                    ? "bg-accent/8 text-accent border-accent/20"
+                    : "border-border text-text-2 hover:text-text-1 hover:border-border-hover",
+                  ti.style && tier !== ti.key ? ti.style : ""
+                )}>
                 {ti.label}
               </button>
             ))}
@@ -89,7 +97,7 @@ function Content() {
 
         {q.isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} className="h-40" />)}
+            {Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={i} className="h-44" />)}
           </div>
         ) : q.isError ? (
           <ErrorState onRetry={() => q.refetch()} />

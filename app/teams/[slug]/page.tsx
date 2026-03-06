@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useState, useMemo } from "react";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import Link from "next/link";
 import { ArrowLeft, MapPin, Gamepad2, Trophy, Swords, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
@@ -62,7 +62,7 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
         {/* Back */}
         <Link href="/teams" className="inline-flex items-center gap-1.5 text-xs text-text-2 hover:text-text-0 transition-colors mb-8">
           <ArrowLeft size={13} /> {t("back")}
@@ -71,9 +71,9 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
         {/* Hero */}
         <div className="rounded-2xl border border-border bg-surface-1 p-6 sm:p-8 mb-8">
           <div className="flex flex-col sm:flex-row items-start gap-5">
-            <div className="h-20 w-20 shrink-0 rounded-2xl bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center">
+            <div className="h-20 w-20 shrink-0 rounded-2xl bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
               {team.image_url ? (
-                <Image src={team.image_url} alt={team.name} width={56} height={56} className="object-contain" />
+                <SafeImage src={team.image_url} alt={team.name} width={56} height={56} className="object-contain" fallbackText={team.acronym?.[0] || "?"} fallbackClassName="text-2xl font-bold text-text-2" />
               ) : (
                 <span className="text-2xl font-bold text-text-2">{team.acronym?.[0] || "?"}</span>
               )}
@@ -169,8 +169,8 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                     {team.players.slice(0, 5).map((p) => (
                       <Link key={p.id} href={`/players/${p.slug}`}>
                         <div className="rounded-xl border border-border bg-surface-1 p-3 text-center card-hover">
-                          <div className="h-10 w-10 mx-auto rounded-full bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center mb-2">
-                            {p.image_url ? <Image src={p.image_url} alt={p.name} width={40} height={40} className="object-cover" /> :
+                          <div className="h-10 w-10 mx-auto rounded-full bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center mb-2">
+                            {p.image_url ? <SafeImage src={p.image_url} alt={p.name} width={40} height={40} className="object-cover" fallbackText={p.name[0]} fallbackClassName="text-[10px] font-bold text-text-2" /> :
                               <span className="text-[10px] font-bold text-text-2">{p.name[0]}</span>}
                           </div>
                           <p className="text-xs font-medium text-text-0 truncate">{p.name}</p>
@@ -195,7 +195,7 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                 {matches.isLoading ? (
                   <div className="space-y-2">
                     {Array.from({ length: 3 }).map((_, i) => (
-                      <div key={i} className="h-12 rounded-lg bg-surface-2 animate-pulse" />
+                      <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                     ))}
                   </div>
                 ) : matches.data?.length ? (
@@ -210,7 +210,7 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
 
                       return (
                         <Link key={m.id} href={`/matches/${m.id}`}>
-                          <div className="flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-4 py-2.5 hover:bg-surface-2/60 transition-colors">
+                          <div className="flex items-center gap-3 rounded-xl border border-border bg-surface-1 px-4 py-2.5 hover:bg-surface-2/60 transition-colors">
                             {m.status === "finished" && (
                               <span className={cn(
                                 "text-[10px] font-bold w-5 text-center",
@@ -219,9 +219,9 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                                 {won ? "W" : "L"}
                               </span>
                             )}
-                            <div className="h-6 w-6 rounded bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
+                            <div className="h-6 w-6 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
                               {opponent?.image_url ? (
-                                <Image src={opponent.image_url} alt="" width={18} height={18} className="object-contain" />
+                                <SafeImage src={opponent.image_url} alt="" width={18} height={18} className="object-contain" fallbackText={opponent?.acronym?.[0] || "?"} fallbackClassName="text-[8px] font-bold text-text-2" />
                               ) : (
                                 <span className="text-[8px] font-bold text-text-2">{opponent?.acronym?.[0] || "?"}</span>
                               )}
@@ -249,8 +249,8 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                   <Link key={p.id} href={`/players/${p.slug}`}>
                     <div className="rounded-xl border border-border bg-surface-1 p-4 card-hover">
                       <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-full bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
-                          {p.image_url ? <Image src={p.image_url} alt={p.name} width={48} height={48} className="object-cover" /> :
+                        <div className="h-12 w-12 rounded-full bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
+                          {p.image_url ? <SafeImage src={p.image_url} alt={p.name} width={48} height={48} className="object-cover" fallbackText={p.name[0]} fallbackClassName="text-sm font-bold text-text-2" /> :
                             <span className="text-sm font-bold text-text-2">{p.name[0]}</span>}
                         </div>
                         <div className="min-w-0">
@@ -280,7 +280,7 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
             matches.isLoading ? (
               <div className="space-y-2">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="h-12 rounded-lg bg-surface-2 animate-pulse" />
+                  <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                 ))}
               </div>
             ) : matches.data?.length ? (
@@ -295,18 +295,18 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
             tournaments.isLoading ? (
               <div className="space-y-2">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="h-12 rounded-lg bg-surface-2 animate-pulse" />
+                  <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                 ))}
               </div>
             ) : tournaments.data?.length ? (
               <div className="space-y-1.5">
                 {tournaments.data.map((tr) => (
                   <Link key={tr.id} href={`/tournaments/${tr.id}`}>
-                    <div className="flex items-center justify-between rounded-lg border border-border bg-surface-1 px-4 py-3 hover:bg-surface-2/60 transition-colors">
+                    <div className="flex items-center justify-between rounded-xl border border-border bg-surface-1 px-4 py-3 hover:bg-surface-2/60 transition-colors">
                       <div className="flex items-center gap-3 min-w-0">
                         {tr.league?.image_url && (
-                          <div className="h-6 w-6 rounded bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
-                            <Image src={tr.league.image_url} alt="" width={16} height={16} className="object-contain" />
+                          <div className="h-6 w-6 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
+                            <SafeImage src={tr.league.image_url} alt="" width={16} height={16} className="object-contain" fallbackText={tr.league?.name?.[0] || "?"} fallbackClassName="text-[8px] font-bold text-text-2" />
                           </div>
                         )}
                         <div className="min-w-0">

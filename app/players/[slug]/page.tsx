@@ -1,7 +1,7 @@
 "use client";
 
 import { use, useState, useMemo } from "react";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import Link from "next/link";
 import { ArrowLeft, User, Trophy, Swords, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
@@ -63,7 +63,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
         {/* Back */}
         <Link href="/players" className="inline-flex items-center gap-1.5 text-xs text-text-2 hover:text-text-0 transition-colors mb-8">
           <ArrowLeft size={13} /> {t("back")}
@@ -72,9 +72,9 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
         {/* Hero */}
         <div className="rounded-2xl border border-border bg-surface-1 p-6 sm:p-8 mb-8">
           <div className="flex flex-col sm:flex-row items-start gap-5">
-            <div className="h-20 w-20 shrink-0 rounded-full bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center">
+            <div className="h-20 w-20 shrink-0 rounded-full bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
               {p.image_url ? (
-                <Image src={p.image_url} alt={p.name} width={80} height={80} className="object-cover" />
+                <SafeImage src={p.image_url} alt={p.name} width={80} height={80} className="object-cover" fallbackText={p.name[0]} fallbackClassName="text-2xl font-bold text-text-2" />
               ) : (
                 <span className="text-2xl font-bold text-text-2">{p.name[0]}</span>
               )}
@@ -103,8 +103,8 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                   href={`/teams/${p.current_team.slug}`}
                   className="mt-3 inline-flex items-center gap-2 rounded-lg border border-border bg-surface-0 px-3 py-1.5 text-xs text-text-0 hover:bg-surface-2/60 transition-colors"
                 >
-                  {p.current_team.image_url && (
-                    <Image src={p.current_team.image_url} alt="" width={18} height={18} className="object-contain" />
+                   {p.current_team.image_url && (
+                    <SafeImage src={p.current_team.image_url} alt="" width={18} height={18} className="object-contain" fallbackText={p.current_team.name?.[0] || "?"} fallbackClassName="text-[8px] font-bold text-text-2" />
                   )}
                   {p.current_team.name}
                 </Link>
@@ -174,8 +174,8 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                     <div className="rounded-xl border border-border bg-surface-1 p-4">
                       <span className="text-[10px] font-medium uppercase tracking-wider text-text-2">{t("player.stats.team")}</span>
                       <Link href={`/teams/${p.current_team.slug}`} className="flex items-center gap-2 mt-2 hover:text-accent transition-colors">
-                        {p.current_team.image_url && (
-                          <Image src={p.current_team.image_url} alt="" width={24} height={24} className="object-contain" />
+                         {p.current_team.image_url && (
+                          <SafeImage src={p.current_team.image_url} alt="" width={24} height={24} className="object-contain" fallbackText={p.current_team.name?.[0] || "?"} fallbackClassName="text-[9px] font-bold text-text-2" />
                         )}
                         <span className="text-sm font-medium text-text-0">{p.current_team.name}</span>
                       </Link>
@@ -210,7 +210,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                 {matches.isLoading ? (
                   <div className="space-y-2">
                     {Array.from({ length: 3 }).map((_, i) => (
-                      <div key={i} className="h-12 rounded-lg bg-surface-2 animate-pulse" />
+                      <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                     ))}
                   </div>
                 ) : matches.data?.length ? (
@@ -224,7 +224,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
 
                       return (
                         <Link key={m.id} href={`/matches/${m.id}`}>
-                          <div className="flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-4 py-2.5 hover:bg-surface-2/60 transition-colors">
+                          <div className="flex items-center gap-3 rounded-xl border border-border bg-surface-1 px-4 py-2.5 hover:bg-surface-2/60 transition-colors">
                             {m.status === "finished" && (
                               <span className={cn(
                                 "text-[10px] font-bold w-5 text-center",
@@ -256,7 +256,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
             matches.isLoading ? (
               <div className="space-y-2">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="h-12 rounded-lg bg-surface-2 animate-pulse" />
+                  <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                 ))}
               </div>
             ) : matches.data?.length ? (
@@ -271,18 +271,18 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
             tournaments.isLoading ? (
               <div className="space-y-2">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="h-12 rounded-lg bg-surface-2 animate-pulse" />
+                  <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                 ))}
               </div>
             ) : tournaments.data?.length ? (
               <div className="space-y-1.5">
                 {tournaments.data.map((tr) => (
                   <Link key={tr.id} href={`/tournaments/${tr.id}`}>
-                    <div className="flex items-center justify-between rounded-lg border border-border bg-surface-1 px-4 py-3 hover:bg-surface-2/60 transition-colors">
+                    <div className="flex items-center justify-between rounded-xl border border-border bg-surface-1 px-4 py-3 hover:bg-surface-2/60 transition-colors">
                       <div className="flex items-center gap-3 min-w-0">
                         {tr.league?.image_url && (
-                          <div className="h-6 w-6 rounded bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
-                            <Image src={tr.league.image_url} alt="" width={16} height={16} className="object-contain" />
+                          <div className="h-6 w-6 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
+                            <SafeImage src={tr.league.image_url} alt="" width={16} height={16} className="object-contain" fallbackText={tr.league?.name?.[0] || "?"} fallbackClassName="text-[8px] font-bold text-text-2" />
                           </div>
                         )}
                         <div className="min-w-0">

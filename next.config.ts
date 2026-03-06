@@ -13,7 +13,16 @@ const nextConfig: NextConfig = {
         hostname: "cdn-api.pandascore.co",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "**.pandascore.co",
+        pathname: "/**",
+      },
     ],
+    minimumCacheTTL: 3600,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "inline",
+    formats: ["image/avif", "image/webp"],
   },
 };
 

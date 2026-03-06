@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
 import { Search, X, Loader2, Clock } from "lucide-react";
 import { apiGet } from "@/lib/api/client";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -92,11 +92,37 @@ const categoryTabs: { key: CategoryType; labelKey: string }[] = [
   { key: "match", labelKey: "search.category.matches" },
 ];
 
+// --- Popularity ranking helpers ---
+function rankTeam(t: Team): number {
+  let score = 0;
+  if (t.image_url) score += 10;
+  if (t.current_videogame) score += 5;
+  if (t.players?.length) score += 3;
+  return score;
+}
+
+function rankPlayer(p: Player): number {
+  let score = 0;
+  if (p.image_url) score += 10;
+  if (p.current_team) score += 5;
+  if (p.role) score += 2;
+  return score;
+}
+
+const tierScore: Record<string, number> = { s: 50, a: 40, b: 30, c: 20, d: 10, unranked: 0 };
+function rankTournament(t: Tournament): number {
+  let score = tierScore[t.tier || "unranked"] || 0;
+  if (t.league?.image_url) score += 5;
+  if (t.prizepool) score += 10;
+  return score;
+}
+
 export function SearchModal({ open, onClose }: SearchModalProps) {
   const router = useRouter();
   const { t } = useLocale();
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeCategory, setActiveCategory] = useState<CategoryType>("all");
@@ -106,7 +132,7 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
   const [matches, setMatches] = useState<Match[]>([]);
   const [selected, setSelected] = useState(0);
   const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
-  const debouncedQuery = useDebounce(query, 300);
+  const debouncedQuery = useDebounce(query, 400);
 
   // Focus on open
   useEffect(() => {
@@ -120,6 +146,9 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
       setSelected(0);
       setActiveCategory("all");
       setRecentSearches(getRecentSearches());
+    } else {
+      // Abort any in-flight search when modal closes
+      abortRef.current?.abort();
     }
   }, [open]);
 
@@ -139,32 +168,42 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  // Search
+  // Search with abort controller and popularity sorting
   useEffect(() => {
     if (!debouncedQuery || debouncedQuery.length < 2) {
       setTeams([]); setPlayers([]); setTournaments([]); setMatches([]);
       return;
     }
 
-    let cancelled = false;
+    // Abort previous in-flight request
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     setLoading(true);
 
     Promise.allSettled([
-      apiGet<Team[]>("/teams", { "search[name]": debouncedQuery, "page[size]": 5 }),
-      apiGet<Player[]>("/players", { "search[name]": debouncedQuery, "page[size]": 5 }),
-      apiGet<Tournament[]>("/tournaments", { "search[name]": debouncedQuery, "page[size]": 5 }),
+      apiGet<Team[]>("/teams", { "search[name]": debouncedQuery, "page[size]": 8, sort: "-modified_at" }),
+      apiGet<Player[]>("/players", { "search[name]": debouncedQuery, "page[size]": 8, sort: "-modified_at" }),
+      apiGet<Tournament[]>("/tournaments", { "search[name]": debouncedQuery, "page[size]": 8, sort: "-modified_at" }),
       apiGet<Match[]>("/matches", { "search[name]": debouncedQuery, "page[size]": 5, sort: "-scheduled_at" }),
     ]).then(([teamsRes, playersRes, tournamentsRes, matchesRes]) => {
-      if (cancelled) return;
-      setTeams(teamsRes.status === "fulfilled" ? teamsRes.value : []);
-      setPlayers(playersRes.status === "fulfilled" ? playersRes.value : []);
-      setTournaments(tournamentsRes.status === "fulfilled" ? tournamentsRes.value : []);
+      if (controller.signal.aborted) return;
+
+      // Sort by popularity score (higher = more prominent)
+      const rawTeams = teamsRes.status === "fulfilled" ? teamsRes.value : [];
+      const rawPlayers = playersRes.status === "fulfilled" ? playersRes.value : [];
+      const rawTournaments = tournamentsRes.status === "fulfilled" ? tournamentsRes.value : [];
+
+      setTeams([...rawTeams].sort((a, b) => rankTeam(b) - rankTeam(a)));
+      setPlayers([...rawPlayers].sort((a, b) => rankPlayer(b) - rankPlayer(a)));
+      setTournaments([...rawTournaments].sort((a, b) => rankTournament(b) - rankTournament(a)));
       setMatches(matchesRes.status === "fulfilled" ? matchesRes.value : []);
       setSelected(0);
       setLoading(false);
     });
 
-    return () => { cancelled = true; };
+    return () => { controller.abort(); };
   }, [debouncedQuery]);
 
   // Build grouped results for "all" view
@@ -289,9 +328,9 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
           idx === selected ? "bg-surface-2" : "hover:bg-surface-1"
         )}
       >
-        <div className="h-7 w-7 shrink-0 rounded-md bg-logo-bg shadow-sm ring-1 ring-black/5 overflow-hidden flex items-center justify-center">
+        <div className="h-7 w-7 shrink-0 rounded-lg bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
           {img ? (
-            <Image src={img} alt="" width={20} height={20} className="object-contain" />
+            <SafeImage src={img} alt="" width={20} height={20} className="object-contain" fallbackText={name?.[0] || "?"} fallbackClassName="text-[9px] font-bold text-text-2" />
           ) : (
             <span className="text-[9px] font-bold text-text-2">{name?.[0]}</span>
           )}
@@ -321,11 +360,11 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
   return (
     <div className="fixed inset-0 z-[100]">
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
 
       {/* Modal */}
       <div className="relative mx-auto mt-[15vh] w-[calc(100%-2rem)] max-w-lg">
-        <div className="rounded-xl border border-border bg-surface-0 shadow-2xl overflow-hidden">
+        <div className="rounded-2xl border border-border bg-surface-1 shadow-2xl overflow-hidden">
           {/* Input */}
           <div className="flex items-center gap-3 border-b border-border px-4 h-12">
             <Search size={15} className="text-text-2 shrink-0" />

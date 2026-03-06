@@ -22,12 +22,12 @@ export function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="h-8 w-full rounded-md border border-border bg-surface-1 pl-8 pr-8 text-xs text-text-0 placeholder:text-text-2 outline-none focus:border-accent/40 transition-colors"
+        className="h-9 w-full rounded-xl border border-border bg-surface-1 pl-9 pr-8 text-xs text-text-0 placeholder:text-text-2 outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all"
       />
       {value && (
         <button
           onClick={() => onChange("")}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-2 hover:text-text-0 transition-colors p-0.5 rounded hover:bg-surface-2"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-2 hover:text-text-0 transition-colors p-0.5 rounded-lg hover:bg-surface-2"
           aria-label="Clear search"
         >
           <X size={12} />

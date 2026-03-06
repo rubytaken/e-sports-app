@@ -6,11 +6,11 @@ interface TierBadgeProps {
 }
 
 const styles: Record<string, string> = {
-  s: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  a: "bg-slate-400/10 text-slate-300 border-slate-400/20",
-  b: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-  c: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
-  d: "bg-zinc-600/10 text-zinc-500 border-zinc-600/20",
+  s: "bg-tier-s/15 text-tier-s border-tier-s/30 shadow-tier-s/10",
+  a: "bg-tier-a/15 text-tier-a border-tier-a/30",
+  b: "bg-tier-b/15 text-tier-b border-tier-b/30",
+  c: "bg-surface-2 text-text-2 border-border",
+  d: "bg-surface-2 text-text-2 border-border",
 };
 
 export function TierBadge({ tier }: TierBadgeProps) {
@@ -18,7 +18,7 @@ export function TierBadge({ tier }: TierBadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex h-5 w-5 items-center justify-center rounded border text-[10px] font-bold uppercase",
+        "inline-flex h-6 w-6 items-center justify-center rounded-lg border text-[10px] font-extrabold uppercase shadow-sm",
         styles[tier] ?? styles.d
       )}
     >

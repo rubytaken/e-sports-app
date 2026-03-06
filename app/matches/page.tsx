@@ -25,7 +25,7 @@ function Content() {
   const totalPages = q.data ? Math.ceil(q.data.total / PAGE_SIZE) : 0;
 
   const tabs = [
-    { key: "running" as const, label: t("matches.tab.live") },
+    { key: "running" as const, label: t("matches.tab.live"), live: true },
     { key: "upcoming" as const, label: t("matches.tab.upcoming") },
     { key: "past" as const, label: t("matches.tab.results") },
   ];
@@ -37,12 +37,13 @@ function Content() {
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
+        {/* Header */}
         <div className="flex items-center gap-3 mb-1">
-          <h1 className="text-lg font-semibold text-text-0">{t("matches.title")}</h1>
+          <h1 className="text-xl font-bold text-text-0">{t("matches.title")}</h1>
           {q.data && q.data.total > 0 && tab === "running" && (
-            <span className="flex items-center gap-1.5 rounded-md bg-live/10 px-2 py-0.5 text-[10px] font-semibold text-live">
-              <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />{q.data.total}
+            <span className="flex items-center gap-1.5 rounded-full bg-live/10 border border-live/20 px-3 py-1 text-[10px] font-bold text-live uppercase tracking-wider">
+              <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />{q.data.total} Live
             </span>
           )}
         </div>
@@ -50,16 +51,25 @@ function Content() {
 
         <div className="mb-6"><GameFilter /></div>
 
-        <div className="flex gap-1 mb-6 border-b border-border pb-px">
+        {/* Tabs */}
+        <div className="flex gap-1 mb-6 border-b border-border">
           {tabs.map((tb) => (
             <button key={tb.key} onClick={() => handleTabChange(tb.key)}
               className={cn(
-                "rounded-t-md px-4 py-2 text-xs font-medium transition-colors",
+                "relative px-4 py-2.5 text-xs font-semibold transition-all",
                 tab === tb.key
-                  ? "bg-surface-2 text-text-0 border-b-2 border-accent"
+                  ? "text-accent"
                   : "text-text-2 hover:text-text-1"
               )}>
-              {tb.label}
+              <span className="flex items-center gap-1.5">
+                {tb.live && tab === tb.key && (
+                  <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />
+                )}
+                {tb.label}
+              </span>
+              {tab === tb.key && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-accent" />
+              )}
             </button>
           ))}
         </div>

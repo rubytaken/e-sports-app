@@ -37,7 +37,7 @@ function NewsContent() {
 
   return (
     <PageTransition>
-      <div className="mx-auto max-w-[1100px] px-5 py-10">
+      <div className="mx-auto max-w-[1200px] px-5 py-10">
         {/* Header */}
         <div className="mb-1">
           <h1 className="text-lg font-semibold text-text-0">{t("news.title")}</h1>
