@@ -59,7 +59,7 @@ export function Footer() {
             </p>
             <span className="text-[10px] text-text-2/30">|</span>
             <p className="text-[10px] text-text-2">
-              Powered by PandaScore API
+              Created for SWE492
             </p>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import { ArrowRight, Zap, Trophy, Users, Crosshair, TrendingUp } from "lucide-react";
 import { useMatchesRunning, useMatchesUpcoming, useMatchesPast } from "@/lib/api/matches";
 import { useTournamentsRunning } from "@/lib/api/tournaments";
@@ -47,7 +48,10 @@ function FeaturedMatch({ match }: { match: Match }) {
         )}
 
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-[10px] text-accent font-semibold uppercase tracking-wider">{match.videogame?.name}</span>
+          <span className="text-[10px] text-accent font-semibold uppercase tracking-wider flex items-center gap-1">
+            {match.videogame?.slug && <GameIcon slug={match.videogame.slug} size={11} className="text-accent" />}
+            {match.videogame?.name}
+          </span>
           <span className="text-[10px] text-text-2">BO{match.number_of_games}</span>
         </div>
 

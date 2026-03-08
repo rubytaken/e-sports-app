@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { cn, formatDateTime, timeUntil } from "@/lib/utils";
 import type { Match, Team } from "@/lib/api/types";
@@ -43,6 +44,7 @@ export function MatchCard({ match }: { match: Match }) {
         <div className="flex items-center justify-between mb-3">
           <StatusBadge status={match.status} />
           <div className="flex items-center gap-2">
+            {match.videogame?.slug && <GameIcon slug={match.videogame.slug} size={12} className="text-text-2" />}
             <span className="text-[10px] text-text-2 font-medium">{match.videogame?.name}</span>
             <span className="text-[10px] text-text-2/50">|</span>
             <span className="text-[10px] text-text-2">BO{match.number_of_games}</span>

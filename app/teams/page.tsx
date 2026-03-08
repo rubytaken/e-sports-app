@@ -3,6 +3,7 @@
 import { Suspense, useState, useMemo } from "react";
 import Link from "next/link";
 import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import { useTeamsPaginated } from "@/lib/api/teams";
 import { GameFilter } from "@/components/shared/game-filter";
 import { SearchInput } from "@/components/shared/search-input";
@@ -80,7 +81,12 @@ function Content() {
                           <span className="text-[10px] font-bold text-text-2">{team.acronym?.[0] || "?"}</span>}
                       </div>
                       <p className="text-xs font-medium text-text-0 truncate">{team.name}</p>
-                      {team.current_videogame && <p className="text-[10px] text-text-2 mt-0.5">{team.current_videogame.name}</p>}
+                      {team.current_videogame && (
+                        <p className="text-[10px] text-text-2 mt-0.5 flex items-center justify-center gap-1">
+                          <GameIcon slug={team.current_videogame.slug || ""} size={10} className="text-text-2" />
+                          {team.current_videogame.name}
+                        </p>
+                      )}
                     </div>
                   </Link>
                 </StaggerItem>

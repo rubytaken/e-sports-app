@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
@@ -73,7 +74,10 @@ export default function MatchDetail({ params }: { params: Promise<{ id: string }
         <div className="flex flex-wrap items-center gap-2 mb-6">
           <StatusBadge status={m.status} />
           <TierBadge tier={m.tournament?.tier ?? null} />
-          <span className="text-[11px] text-text-2 font-medium">{m.videogame?.name}</span>
+          <span className="text-[11px] text-text-2 font-medium flex items-center gap-1">
+            {m.videogame?.slug && <GameIcon slug={m.videogame.slug} size={12} className="text-text-2" />}
+            {m.videogame?.name}
+          </span>
           <span className="text-[11px] text-text-2">BO{m.number_of_games}</span>
           {stream && (
             <a href={stream.raw_url} target="_blank" rel="noopener noreferrer"

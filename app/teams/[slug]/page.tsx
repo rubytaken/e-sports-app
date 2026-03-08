@@ -3,7 +3,8 @@
 import { use, useState, useMemo } from "react";
 import { SafeImage } from "@/components/shared/safe-image";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Gamepad2, Trophy, Swords, TrendingUp } from "lucide-react";
+import { ArrowLeft, MapPin, Trophy, Swords, TrendingUp } from "lucide-react";
+import { GameIcon } from "@/components/shared/game-icon";
 import { motion } from "framer-motion";
 import { useTeam, useTeamMatches, useTeamTournaments } from "@/lib/api/teams";
 import { MatchCard } from "@/components/match/match-card";
@@ -94,7 +95,7 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                 )}
                 {team.current_videogame && (
                   <span className="inline-flex items-center gap-1">
-                    <Gamepad2 size={12} />
+                    <GameIcon slug={team.current_videogame.slug || ""} size={12} />
                     {team.current_videogame.name}
                   </span>
                 )}

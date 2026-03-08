@@ -1,7 +1,8 @@
 "use client";
 
 import { use, useState } from "react";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, Trophy, Users, ClipboardCheck, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -221,7 +222,7 @@ export default function TournamentRegister({ params }: { params: Promise<{ slug:
           <div className="flex items-center gap-3">
             {tournament.league?.image_url && (
               <div className="h-10 w-10 shrink-0 rounded-lg bg-logo-bg shadow-sm ring-1 ring-black/5 dark:ring-white/5 overflow-hidden flex items-center justify-center">
-                <Image src={tournament.league.image_url} alt="" width={28} height={28} className="object-contain" />
+                <SafeImage src={tournament.league.image_url} alt="" width={28} height={28} className="object-contain" fallbackText={tournament.league?.name?.[0] || "?"} fallbackClassName="text-sm font-bold text-text-2" />
               </div>
             )}
             <div className="flex-1 min-w-0">
@@ -230,7 +231,10 @@ export default function TournamentRegister({ params }: { params: Promise<{ slug:
                 <TierBadge tier={tournament.tier} />
               </div>
               <div className="flex items-center gap-2 text-[10px] text-text-2 mt-0.5">
-                <span>{tournament.videogame?.name}</span>
+                <span className="flex items-center gap-1">
+                  {tournament.videogame?.slug && <GameIcon slug={tournament.videogame.slug} size={10} />}
+                  {tournament.videogame?.name}
+                </span>
                 <span>&middot;</span>
                 <span>{formatDate(tournament.begin_at)} — {formatDate(tournament.end_at)}</span>
                 {tournament.prizepool && (

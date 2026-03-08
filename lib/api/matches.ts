@@ -39,6 +39,7 @@ export function useMatchesPast(gameSlug?: string, params?: QueryParams) {
       apiGetPaginated<Match>(`${gamePath(gameSlug)}/matches/past`, {
         "page[size]": 50,
         sort: "-end_at",
+        "filter[status]": params?.["filter[status]"] ?? "finished",
         ...params,
       }),
     staleTime: STALE_TIMES.matchesPast,

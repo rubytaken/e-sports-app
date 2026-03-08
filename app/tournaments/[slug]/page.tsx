@@ -1,7 +1,8 @@
 "use client";
 
 import { use, useState } from "react";
-import Image from "next/image";
+import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import Link from "next/link";
 import { ArrowLeft, ClipboardEdit } from "lucide-react";
 import { motion } from "framer-motion";
@@ -48,13 +49,16 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
           <div className="flex flex-col sm:flex-row items-start gap-5">
             {tournament.league?.image_url && (
               <div className="h-16 w-16 shrink-0 rounded-xl bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
-                <Image src={tournament.league.image_url} alt="" width={44} height={44} className="object-contain" />
+                <SafeImage src={tournament.league.image_url} alt="" width={44} height={44} className="object-contain" fallbackText={tournament.league?.name?.[0] || "?"} fallbackClassName="text-lg font-bold text-text-2" />
               </div>
             )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <TierBadge tier={tournament.tier} />
-                <span className="text-[10px] text-text-2">{tournament.videogame?.name}</span>
+                <span className="text-[10px] text-text-2 flex items-center gap-1">
+                  {tournament.videogame?.slug && <GameIcon slug={tournament.videogame.slug} size={10} className="text-text-2" />}
+                  {tournament.videogame?.name}
+                </span>
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-text-0">{tournament.name}</h1>
               <p className="text-xs text-text-2 mt-0.5">{tournament.league?.name} — {tournament.serie?.full_name}</p>
@@ -125,7 +129,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                           {s.team ? (
                             <Link href={`/teams/${s.team.slug}`} className="flex items-center gap-2 hover:text-accent transition-colors">
                               <div className="h-6 w-6 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
-                                {s.team.image_url ? <Image src={s.team.image_url} alt="" width={18} height={18} className="object-contain" /> :
+                                {s.team.image_url ? <SafeImage src={s.team.image_url} alt="" width={18} height={18} className="object-contain" fallbackText={s.team.acronym?.[0] || "?"} fallbackClassName="text-[8px] font-bold text-text-2" /> :
                                   <span className="text-[8px] font-bold text-text-2">{s.team.acronym?.[0]}</span>}
                               </div>
                               <span className="text-text-0 font-medium">{s.team.name}</span>
@@ -161,7 +165,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                   <Link key={team.id} href={`/teams/${team.slug}`}>
                     <div className="rounded-xl border border-border bg-surface-1 p-4 text-center card-hover hover:border-border-hover">
                       <div className="h-10 w-10 mx-auto rounded-md bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center mb-2">
-                        {team.image_url ? <Image src={team.image_url} alt="" width={32} height={32} className="object-contain" /> :
+                        {team.image_url ? <SafeImage src={team.image_url} alt="" width={32} height={32} className="object-contain" fallbackText={team.acronym?.[0] || "?"} fallbackClassName="text-[10px] font-bold text-text-2" /> :
                           <span className="text-[10px] font-bold text-text-2">{team.acronym?.[0]}</span>}
                       </div>
                       <p className="text-xs font-medium text-text-0 truncate">{team.name}</p>
@@ -193,7 +197,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                           <div className="flex items-center gap-2">
                             {bt1?.image_url && (
                               <div className="h-5 w-5 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
-                                <Image src={bt1.image_url} alt="" width={14} height={14} className="object-contain" />
+                                <SafeImage src={bt1.image_url} alt="" width={14} height={14} className="object-contain" fallbackText={bt1?.acronym?.[0] || "?"} fallbackClassName="text-[7px] font-bold text-text-2" />
                               </div>
                             )}
                             <span className="text-xs text-text-0 font-medium">{bt1?.name || "TBD"}</span>
@@ -204,7 +208,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                           <div className="flex items-center gap-2">
                             {bt2?.image_url && (
                               <div className="h-5 w-5 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
-                                <Image src={bt2.image_url} alt="" width={14} height={14} className="object-contain" />
+                                <SafeImage src={bt2.image_url} alt="" width={14} height={14} className="object-contain" fallbackText={bt2?.acronym?.[0] || "?"} fallbackClassName="text-[7px] font-bold text-text-2" />
                               </div>
                             )}
                             <span className="text-xs text-text-0 font-medium">{bt2?.name || "TBD"}</span>

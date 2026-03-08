@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { SafeImage } from "@/components/shared/safe-image";
+import { GameIcon } from "@/components/shared/game-icon";
 import { TierBadge } from "@/components/shared/tier-badge";
 import { formatDate } from "@/lib/utils";
 import type { Tournament } from "@/lib/api/types";
@@ -34,7 +35,10 @@ export function TournamentCard({ tournament }: { tournament: Tournament }) {
               )}
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] text-accent font-semibold uppercase tracking-wider">{tournament.videogame?.name}</p>
+              <p className="text-[10px] text-accent font-semibold uppercase tracking-wider flex items-center gap-1">
+                {tournament.videogame?.slug && <GameIcon slug={tournament.videogame.slug} size={10} className="text-accent" />}
+                {tournament.videogame?.name}
+              </p>
               <p className="text-xs text-text-1 truncate">{tournament.league?.name}</p>
             </div>
           </div>

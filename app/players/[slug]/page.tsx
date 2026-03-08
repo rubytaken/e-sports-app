@@ -4,6 +4,7 @@ import { use, useState, useMemo } from "react";
 import { SafeImage } from "@/components/shared/safe-image";
 import Link from "next/link";
 import { ArrowLeft, User, Trophy, Swords, Calendar } from "lucide-react";
+import { GameIcon } from "@/components/shared/game-icon";
 import { motion } from "framer-motion";
 import { usePlayer, usePlayerMatches, usePlayerTournaments } from "@/lib/api/players";
 import { MatchCard } from "@/components/match/match-card";
@@ -184,7 +185,10 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                   {p.current_videogame && (
                     <div className="rounded-xl border border-border bg-surface-1 p-4">
                       <span className="text-[10px] font-medium uppercase tracking-wider text-text-2">{t("games")}</span>
-                      <p className="text-sm font-medium text-text-0 mt-2">{p.current_videogame.name}</p>
+                      <p className="text-sm font-medium text-text-0 mt-2 flex items-center gap-1.5">
+                        <GameIcon slug={p.current_videogame.slug || ""} size={14} className="text-text-1" />
+                        {p.current_videogame.name}
+                      </p>
                     </div>
                   )}
                   {p.birthday && (
