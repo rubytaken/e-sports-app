@@ -117,7 +117,9 @@ export function useTournamentBrackets(idOrSlug: string | number, enabled = true)
   return useQuery<BracketMatch[]>({
     queryKey: ["tournament", idOrSlug, "brackets"],
     queryFn: () =>
-      apiGet<BracketMatch[]>(`/tournaments/${idOrSlug}/brackets`),
+      apiGet<BracketMatch[]>(`/tournaments/${idOrSlug}/brackets`, {
+        "page[size]": 100,
+      }),
     staleTime: STALE_TIMES.tournamentDetail,
     enabled: !!idOrSlug && enabled,
   });

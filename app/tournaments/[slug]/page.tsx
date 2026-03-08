@@ -32,7 +32,7 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
   const standings = useTournamentStandings(slug);
   const matches = useTournamentMatches(slug);
   const teams = useTournamentTeams(slug);
-  const brackets = useTournamentBrackets(slug, tab === "Bracket" && (tournament?.has_bracket ?? false));
+  const brackets = useTournamentBrackets(slug, tab === "Bracket");
 
   if (isLoading) return <PageSkeleton />;
   if (isError || !tournament) return <ErrorState message="Failed to load tournament." onRetry={() => refetch()} />;
@@ -179,18 +179,19 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
           {/* Bracket */}
           {tab === "Bracket" && (
             brackets.isLoading ? <TableSkeleton rows={6} /> :
-            (brackets.data as any[])?.length ? (
+            brackets.isError ? <ErrorState message="Failed to load bracket." onRetry={() => brackets.refetch()} /> :
+            brackets.data?.length ? (
               <div className="space-y-2">
-                {(brackets.data as any[]).sort((a: any, b: any) => a.position - b.position).map((b: any) => {
-                  const bt1 = b.match?.opponents?.[0]?.opponent as Team | undefined;
-                  const bt2 = b.match?.opponents?.[1]?.opponent as Team | undefined;
-                  const bs1 = b.match?.results?.[0]?.score ?? 0;
-                  const bs2 = b.match?.results?.[1]?.score ?? 0;
+                {brackets.data.map((bracketMatch) => {
+                  const bt1 = bracketMatch.opponents?.[0]?.opponent as Team | undefined;
+                  const bt2 = bracketMatch.opponents?.[1]?.opponent as Team | undefined;
+                  const bs1 = bracketMatch.results?.[0]?.score ?? 0;
+                  const bs2 = bracketMatch.results?.[1]?.score ?? 0;
                   return (
-                    <div key={b.match_id} className="rounded-xl border border-border bg-surface-1 p-4">
+                    <div key={bracketMatch.id} className="rounded-xl border border-border bg-surface-1 p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] text-text-2 font-medium">{b.match?.name || `Match ${b.position}`}</span>
-                        <StatusBadge status={b.match?.status as MatchStatus} />
+                        <span className="text-[10px] text-text-2 font-medium">{bracketMatch.name || `Match #${bracketMatch.id}`}</span>
+                        <StatusBadge status={bracketMatch.status as MatchStatus} />
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between rounded-md bg-surface-0 px-3 py-2">
@@ -216,6 +217,18 @@ export default function TournamentDetail({ params }: { params: Promise<{ slug: s
                           <span className={cn("text-sm font-bold tabular-nums", bs2 > bs1 ? "text-accent" : "text-text-2")}>{bs2}</span>
                         </div>
                       </div>
+                      {!!bracketMatch.previous_matches?.length && (
+                        <div className="mt-3 flex flex-wrap gap-1.5 border-t border-border/50 pt-3">
+                          {bracketMatch.previous_matches.map((previous) => (
+                            <span
+                              key={`${bracketMatch.id}-${previous.match_id}-${previous.type}`}
+                              className="rounded-md bg-surface-0 px-2 py-1 text-[10px] font-medium text-text-2"
+                            >
+                              {previous.type === "winner" ? "Winner of" : "Loser of"} #{previous.match_id}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   );
                 })}

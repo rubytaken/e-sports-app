@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type { Match } from "./api/types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -38,6 +39,42 @@ export function timeUntil(dateString: string): string {
   if (days > 0) return `${days}d ${hours}h`;
   if (hours > 0) return `${hours}h ${minutes}m`;
   return `${minutes}m`;
+}
+
+function parseTimestamp(dateString: string | null | undefined): number {
+  if (!dateString) return 0;
+  const timestamp = new Date(dateString).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+export function getMatchSortTimestamp(match: Match): number {
+  const dateCandidates =
+    match.status === "finished"
+      ? [match.end_at, match.scheduled_at, match.begin_at, match.original_scheduled_at, match.modified_at]
+      : match.status === "canceled"
+        ? [match.scheduled_at, match.original_scheduled_at, match.begin_at, match.end_at, match.modified_at]
+        : [match.scheduled_at, match.begin_at, match.original_scheduled_at, match.end_at, match.modified_at];
+
+  for (const value of dateCandidates) {
+    const timestamp = parseTimestamp(value);
+    if (timestamp > 0) return timestamp;
+  }
+
+  return 0;
+}
+
+export function sortMatchesByRecency(matches: Match[] | undefined): Match[] {
+  if (!matches?.length) return [];
+
+  return [...matches].sort((a, b) => {
+    const timeDiff = getMatchSortTimestamp(b) - getMatchSortTimestamp(a);
+    if (timeDiff !== 0) return timeDiff;
+
+    const modifiedDiff = parseTimestamp(b.modified_at) - parseTimestamp(a.modified_at);
+    if (modifiedDiff !== 0) return modifiedDiff;
+
+    return b.id - a.id;
+  });
 }
 
 export function getMatchScore(match: {

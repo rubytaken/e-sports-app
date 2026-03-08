@@ -78,14 +78,11 @@ export interface TournamentStanding {
   last_match?: Match;
 }
 
-export interface BracketMatch {
-  match_id: number;
-  position: number;
+export interface BracketMatch extends Match {
   previous_matches: Array<{
     match_id: number;
     type: "winner" | "loser";
   }>;
-  match: Match;
 }
 
 export interface Team {

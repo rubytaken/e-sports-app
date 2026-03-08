@@ -3,7 +3,7 @@
 import { use, useState, useMemo } from "react";
 import { SafeImage } from "@/components/shared/safe-image";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Trophy, Swords, TrendingUp } from "lucide-react";
+import { ArrowLeft, MapPin, Trophy, Swords } from "lucide-react";
 import { GameIcon } from "@/components/shared/game-icon";
 import { motion } from "framer-motion";
 import { useTeam, useTeamMatches, useTeamTournaments } from "@/lib/api/teams";
@@ -15,10 +15,11 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { StatCard, WinRateCard, RecentFormCard } from "@/components/shared/stat-card";
 import { PageTransition, StaggerContainer, StaggerItem } from "@/components/shared/animated-container";
 import { useLocale } from "@/hooks/use-locale";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, sortMatchesByRecency } from "@/lib/utils";
 import type { Team, Match } from "@/lib/api/types";
 
 const tabs = ["overview", "roster", "matches", "tournaments"] as const;
+type ResultFilter = "finished" | "canceled" | "all";
 
 function computeStats(matches: Match[] | undefined, teamId: number) {
   if (!matches?.length) return { wins: 0, losses: 0, recentForm: [] as ("W" | "L")[] };
@@ -41,15 +42,29 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
   const { slug } = use(params);
   const { t } = useLocale();
   const [tab, setTab] = useState<string>("overview");
+  const [resultFilter, setResultFilter] = useState<ResultFilter>("finished");
 
   const { data: team, isLoading, isError, refetch } = useTeam(slug);
   const matches = useTeamMatches(slug);
   const tournaments = useTeamTournaments(slug);
 
+  const sortedMatches = useMemo(() => sortMatchesByRecency(matches.data), [matches.data]);
+
+  const filteredMatches = useMemo(() => {
+    if (resultFilter === "all") return sortedMatches;
+    return sortedMatches.filter((match) => match.status === resultFilter);
+  }, [resultFilter, sortedMatches]);
+
   const stats = useMemo(
-    () => computeStats(matches.data, team?.id ?? 0),
-    [matches.data, team?.id]
+    () => computeStats(sortedMatches, team?.id ?? 0),
+    [sortedMatches, team?.id]
   );
+
+  const resultFilters: Array<{ key: ResultFilter; label: string }> = [
+    { key: "finished", label: t("matches.filter.finished") },
+    { key: "canceled", label: t("matches.filter.canceled") },
+    { key: "all", label: t("matches.filter.all") },
+  ];
 
   if (isLoading) return <ProfileSkeleton />;
   if (isError || !team) return <ErrorState message="Failed to load team." onRetry={() => refetch()} />;
@@ -201,7 +216,7 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                   </div>
                 ) : matches.data?.length ? (
                   <div className="space-y-1.5">
-                    {matches.data.slice(0, 5).map((m) => {
+                    {sortedMatches.slice(0, 5).map((m) => {
                       const won = m.status === "finished" && m.winner_id === team.id;
                       const t1 = m.opponents?.[0]?.opponent as Team | undefined;
                       const t2 = m.opponents?.[1]?.opponent as Team | undefined;
@@ -284,9 +299,34 @@ export default function TeamProfile({ params }: { params: Promise<{ slug: string
                   <div key={i} className="h-12 rounded-xl bg-surface-2 animate-pulse" />
                 ))}
               </div>
-            ) : matches.data?.length ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {matches.data.map((m) => <MatchCard key={m.id} match={m} />)}
+            ) : sortedMatches.length ? (
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  {resultFilters.map((filter) => {
+                    const active = resultFilter === filter.key;
+                    return (
+                      <button
+                        key={filter.key}
+                        onClick={() => setResultFilter(filter.key)}
+                        className={cn(
+                          "rounded-lg border px-3 py-1.5 text-xs font-medium transition-all",
+                          active
+                            ? "bg-accent/10 text-accent border-accent/20"
+                            : "border-border bg-surface-1 text-text-2 hover:text-text-1 hover:border-border-hover"
+                        )}
+                      >
+                        {filter.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                {filteredMatches.length ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {filteredMatches.map((m) => <MatchCard key={m.id} match={m} />)}
+                  </div>
+                ) : (
+                  <EmptyState title={t("team.no_matches")} description={t("try_filters")} />
+                )}
               </div>
             ) : <EmptyState title={t("team.no_matches")} />
           )}
