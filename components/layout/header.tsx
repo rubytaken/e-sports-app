@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sun, Moon, Search, Menu, X, Globe, Crosshair, Swords, Gamepad2, Target, Zap } from "lucide-react";
+import { Sun, Moon, Search, Menu, X, Globe, Crosshair, Swords, Gamepad2, Target, Zap, Trophy } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/hooks/use-theme";
 import { useLocale } from "@/hooks/use-locale";
@@ -65,16 +65,16 @@ export function Header() {
   return (
     <>
       <header className={cn(
-        "sticky top-0 z-50 header-glow transition-all duration-200",
+        "sticky top-0 z-50 transition-all duration-200 border-b",
         scrolled
-          ? "bg-surface-0/95 backdrop-blur-xl shadow-lg shadow-black/5"
-          : "bg-surface-0/80 backdrop-blur-md"
+          ? "bg-surface-1 border-border shadow-sm"
+          : "bg-surface-1/80 backdrop-blur-md border-transparent"
       )}>
         <div className="mx-auto flex h-14 max-w-[1200px] items-center justify-between px-5">
           {/* Left: logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group">
-            <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center border border-accent/20 group-hover:bg-accent/15 transition-colors">
-              <Crosshair size={16} className="text-accent" />
+            <div className="h-8 w-8 rounded-[10px] bg-accent flex items-center justify-center btn-primary-shadow group-hover:scale-105 transition-transform">
+              <Crosshair size={16} className="text-white" />
             </div>
             <span className="text-base font-bold tracking-tight text-text-0">
               <span className="text-accent">e</span>-scores
@@ -91,10 +91,10 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative flex items-center gap-1.5 rounded-lg px-3 py-2 text-[13px] font-medium transition-all",
+                    "relative flex items-center gap-1.5 rounded-[10px] px-3 py-2 text-[13px] font-medium transition-all",
                     active
                       ? "text-accent bg-accent/8"
-                      : "text-text-1 hover:text-text-0 hover:bg-surface-2/50"
+                      : "text-text-1 hover:text-text-0 hover:bg-surface-2"
                   )}
                 >
                   <Icon size={14} className={active ? "text-accent" : ""} />
@@ -116,11 +116,11 @@ export function Header() {
             {/* Search button */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2 rounded-lg border border-border bg-surface-1/50 px-3 py-1.5 text-xs text-text-2 hover:text-text-1 hover:border-border-hover transition-all"
+              className="hidden sm:flex items-center gap-2 rounded-[10px] border border-border bg-surface-0 px-3 py-1.5 text-xs text-text-2 hover:text-text-1 hover:border-border-hover transition-all"
             >
               <Search size={13} />
               <span className="text-text-2/60">Search...</span>
-              <kbd className="ml-2 rounded border border-border bg-surface-2/80 px-1 py-0.5 text-[9px] font-mono text-text-2">
+              <kbd className="ml-2 rounded-md border border-border bg-surface-2 px-1.5 py-0.5 text-[9px] font-mono text-text-2">
                 Ctrl+K
               </kbd>
             </button>
@@ -128,7 +128,7 @@ export function Header() {
             {/* Mobile search icon */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="sm:hidden rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2/50 transition-colors"
+              className="sm:hidden rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
               aria-label="Search"
             >
               <Search size={16} />
@@ -138,7 +138,7 @@ export function Header() {
             <div className="relative">
               <button
                 onClick={(e) => { e.stopPropagation(); setLangOpen(!langOpen); }}
-                className="rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2/50 transition-colors"
+                className="rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
                 aria-label="Language"
               >
                 <Globe size={15} />
@@ -151,7 +151,7 @@ export function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-1 w-40 rounded-xl border border-border bg-surface-1 shadow-2xl overflow-hidden z-50"
+                    className="absolute right-0 top-full mt-1 w-40 rounded-xl border border-border bg-surface-1 shadow-lg overflow-hidden z-50"
                   >
                     {locales.map((l) => (
                       <button
@@ -177,7 +177,7 @@ export function Header() {
             {/* Theme toggle */}
             <button
               onClick={toggle}
-              className="rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2/50 transition-colors"
+              className="rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
@@ -186,7 +186,7 @@ export function Header() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2/50 transition-colors"
+              className="md:hidden rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
               aria-label="Menu"
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -202,7 +202,7 @@ export function Header() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden border-t border-border bg-surface-0/95 backdrop-blur-xl overflow-hidden"
+              className="md:hidden border-t border-border bg-surface-1 overflow-hidden"
             >
               <nav className="flex flex-col px-5 py-3 gap-0.5">
                 {nav.map((item) => {
@@ -212,8 +212,8 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       className={cn(
-                        "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                        isActive(item.href) ? "bg-accent/8 text-accent" : "text-text-1 hover:text-text-0 hover:bg-surface-2/50"
+                        "flex items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-sm font-medium transition-colors",
+                        isActive(item.href) ? "bg-accent/8 text-accent" : "text-text-1 hover:text-text-0 hover:bg-surface-2"
                       )}
                     >
                       <Icon size={16} />
@@ -231,8 +231,8 @@ export function Header() {
                         key={l}
                         onClick={() => setLocale(l)}
                         className={cn(
-                          "rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
-                          l === locale ? "bg-accent text-white" : "bg-surface-2 text-text-2 hover:text-text-0"
+                          "rounded-[10px] px-3 py-1.5 text-xs font-medium transition-colors",
+                          l === locale ? "bg-accent text-white btn-primary-shadow" : "bg-surface-2 text-text-2 hover:text-text-0"
                         )}
                       >
                         {l.toUpperCase()}
@@ -251,6 +251,3 @@ export function Header() {
     </>
   );
 }
-
-// Need to import Trophy for nav
-import { Trophy } from "lucide-react";

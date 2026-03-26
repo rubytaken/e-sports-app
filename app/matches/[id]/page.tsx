@@ -21,8 +21,8 @@ function Side({ team, score, won, align }: { team?: Team; score: number; won: bo
     <div className={cn("flex flex-col items-center gap-3 flex-1", align === "l" ? "md:items-end" : "md:items-start")}>
       <Link href={team ? `/teams/${team.slug}` : "#"} className="group flex flex-col items-center gap-2">
         <div className={cn(
-          "h-20 w-20 rounded-2xl bg-surface-2/80 ring-1 overflow-hidden flex items-center justify-center transition-all",
-          won ? "ring-accent/30 shadow-lg shadow-accent/10" : "ring-white/5"
+          "h-20 w-20 rounded-2xl bg-surface-2 ring-1 overflow-hidden flex items-center justify-center transition-all",
+          won ? "ring-accent/30 shadow-lg shadow-accent/10" : "ring-border"
         )}>
           {team?.image_url ? (
             <SafeImage src={team.image_url} alt={team.name} width={56} height={56} className="object-contain p-1" fallbackText={team?.acronym?.[0] || "?"} fallbackClassName="text-xl font-bold text-text-2" />
@@ -88,7 +88,7 @@ export default function MatchDetail({ params }: { params: Promise<{ id: string }
         </div>
 
         {/* VS */}
-        <div className="rounded-2xl border border-border bg-surface-1/50 backdrop-blur-sm p-8 featured-gradient mb-8">
+        <div className="rounded-2xl border border-border bg-surface-1 backdrop-blur-sm p-8 featured-gradient mb-8">
           <div className="flex items-center justify-center gap-8">
             <Side team={t1} score={s1} won={w1} align="l" />
             <span className="text-text-2/40 text-sm font-bold uppercase tracking-widest shrink-0">vs</span>

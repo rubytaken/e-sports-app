@@ -328,7 +328,7 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
           idx === selected ? "bg-surface-2" : "hover:bg-surface-1"
         )}
       >
-        <div className="h-7 w-7 shrink-0 rounded-lg bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center">
+        <div className="h-7 w-7 shrink-0 rounded-lg bg-surface-2 ring-1 ring-border overflow-hidden flex items-center justify-center">
           {img ? (
             <SafeImage src={img} alt="" width={20} height={20} className="object-contain" fallbackText={name?.[0] || "?"} fallbackClassName="text-[9px] font-bold text-text-2" />
           ) : (
@@ -360,11 +360,11 @@ export function SearchModal({ open, onClose }: SearchModalProps) {
   return (
     <div className="fixed inset-0 z-[100]">
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
       <div className="relative mx-auto mt-[15vh] w-[calc(100%-2rem)] max-w-lg">
-        <div className="rounded-2xl border border-border bg-surface-1 shadow-2xl overflow-hidden">
+        <div className="rounded-2xl border border-border bg-surface-1 shadow-xl overflow-hidden">
           {/* Input */}
           <div className="flex items-center gap-3 border-b border-border px-4 h-12">
             <Search size={15} className="text-text-2 shrink-0" />

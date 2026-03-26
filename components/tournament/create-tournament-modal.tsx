@@ -201,7 +201,7 @@ export function CreateTournamentModal() {
   return (
     <Dialog.Root open={open} onOpenChange={handleOpenChange}>
       <Dialog.Trigger asChild>
-        <button className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-4 py-2 text-xs font-medium text-white hover:bg-accent-hover transition-colors shadow-lg shadow-accent/20 shrink-0">
+        <button className="inline-flex items-center gap-1.5 rounded-[10px] bg-accent px-4 py-2 text-xs font-medium text-white hover:bg-accent-hover transition-colors btn-primary-shadow shrink-0">
           <Plus size={14} />
           <span className="hidden sm:inline">{t("tournaments.create")}</span>
           <span className="sm:hidden">Create</span>
@@ -218,7 +218,7 @@ export function CreateTournamentModal() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
+                className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
               />
             </Dialog.Overlay>
 
@@ -230,7 +230,7 @@ export function CreateTournamentModal() {
                 exit={{ opacity: 0, scale: 0.92, y: 30 }}
                 transition={{ type: "spring", duration: 0.45, bounce: 0.15 }}
                 className={cn(
-                  "fixed z-50 rounded-2xl border border-border bg-surface-1 shadow-2xl",
+                  "fixed z-50 rounded-2xl border border-border bg-surface-1 shadow-xl",
                   "w-[calc(100%-2rem)] max-w-[520px]",
                   "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
                   "max-h-[calc(100vh-3rem)] overflow-hidden flex flex-col"
@@ -416,7 +416,7 @@ export function CreateTournamentModal() {
                           <button
                             onClick={handleSubmit}
                             disabled={mutation.isPending}
-                            className="inline-flex items-center gap-1.5 rounded-lg bg-accent px-5 py-2 text-xs font-medium text-white hover:bg-accent-hover transition-all disabled:opacity-60 shadow-lg shadow-accent/20"
+                            className="inline-flex items-center gap-1.5 rounded-[10px] bg-accent px-5 py-2 text-xs font-medium text-white hover:bg-accent-hover transition-all disabled:opacity-60 btn-primary-shadow"
                           >
                             {mutation.isPending ? (
                               <Loader2 size={13} className="animate-spin" />

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Crosshair, Github, Twitter } from "lucide-react";
+import { Crosshair } from "lucide-react";
 import { useLocale } from "@/hooks/use-locale";
 
 export function Footer() {
@@ -9,14 +9,14 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-surface-1/30">
+    <footer className="border-t border-border bg-surface-1">
       <div className="mx-auto max-w-[1200px] px-5 py-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           {/* Left: branding */}
           <div>
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="h-7 w-7 rounded-lg bg-accent/10 flex items-center justify-center border border-accent/20">
-                <Crosshair size={13} className="text-accent" />
+              <div className="h-7 w-7 rounded-[10px] bg-accent flex items-center justify-center btn-primary-shadow">
+                <Crosshair size={13} className="text-white" />
               </div>
               <span className="text-sm font-bold tracking-tight text-text-0">
                 <span className="text-accent">e</span>-scores

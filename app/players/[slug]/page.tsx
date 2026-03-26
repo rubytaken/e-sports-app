@@ -83,7 +83,7 @@ function HeroPill({ icon, label, accent = false }: { icon: ReactNode; label: str
         "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[11px] font-medium",
         accent
           ? "border-accent/25 bg-accent/10 text-accent"
-          : "border-border bg-surface-0/80 text-text-1"
+          : "border-border bg-surface-0 text-text-1"
       )}
     >
       <span className="shrink-0">{icon}</span>
@@ -130,7 +130,7 @@ function DetailRow({ icon, value, accent = false }: { icon: ReactNode; value: st
     <div
       className={cn(
         "flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
-        accent ? "bg-accent/10 text-accent" : "bg-surface-0/80 text-text-0"
+        accent ? "bg-accent/10 text-accent" : "bg-surface-0 text-text-0"
       )}
     >
       <span className={cn("shrink-0", accent ? "text-accent" : "text-text-2")}>{icon}</span>
@@ -158,7 +158,7 @@ function MatchParticipant({
         className={cn(
           "flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden ring-1",
           isPlayer ? "rounded-full" : "rounded-xl",
-          highlighted ? "bg-accent/10 ring-accent/20" : "bg-surface-2/80 ring-white/5"
+          highlighted ? "bg-accent/10 ring-accent/20" : "bg-surface-2 ring-border"
         )}
       >
         {entity?.image_url ? (
@@ -233,7 +233,7 @@ function RecentMatchSpotlight({
           <div className="mt-4 grid grid-cols-[minmax(0,1fr)_80px_minmax(0,1fr)] items-center gap-3">
             <MatchParticipant entry={left} highlighted={leftHighlighted} />
 
-            <div className="rounded-xl border border-border/70 bg-surface-0/80 px-2 py-3 text-center">
+            <div className="rounded-xl border border-border/70 bg-surface-0 px-2 py-3 text-center">
               {match.status === "not_started" ? (
                 <span className="text-[10px] font-semibold text-text-2">{formatDate(match.scheduled_at)}</span>
               ) : (
@@ -298,7 +298,7 @@ function TournamentShowcaseCard({ tournament }: { tournament: Tournament }) {
             <div className="min-w-0">
               <div className="flex items-center gap-2 text-[10px] text-text-2">
                 {tournament.league?.image_url && (
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-2/80 ring-1 ring-white/5">
+                  <div className="flex h-5 w-5 shrink-0 items-center justify-center overflow-hidden rounded-md bg-surface-2 ring-1 ring-border">
                     <SafeImage
                       src={tournament.league.image_url}
                       alt={tournament.league.name || ""}
@@ -423,7 +423,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
 
           <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-              <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-[26px] bg-surface-0/80 ring-1 ring-white/8">
+              <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-[26px] bg-surface-0 ring-1 ring-white/8">
                 {p.image_url ? (
                   <SafeImage
                     src={p.image_url}
@@ -463,9 +463,9 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                 {p.current_team && (
                   <Link
                     href={`/teams/${p.current_team.slug}`}
-                    className="mt-5 inline-flex items-center gap-3 rounded-xl border border-border bg-surface-0/80 px-3 py-2 text-sm text-text-0 transition-all hover:border-border-hover hover:bg-surface-0"
+                    className="mt-5 inline-flex items-center gap-3 rounded-xl border border-border bg-surface-0 px-3 py-2 text-sm text-text-0 transition-all hover:border-border-hover hover:bg-surface-0"
                   >
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-2/80 ring-1 ring-white/5">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-2 ring-1 ring-border">
                       {p.current_team.image_url ? (
                         <SafeImage
                           src={p.current_team.image_url}
@@ -573,7 +573,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                   {p.current_team && (
                     <ProfilePanel title={t("player.stats.team")} icon={<Shield size={14} />} href={`/teams/${p.current_team.slug}`}>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface-2/80 ring-1 ring-white/5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-surface-2 ring-1 ring-border">
                           {p.current_team.image_url ? (
                             <SafeImage
                               src={p.current_team.image_url}
@@ -604,7 +604,7 @@ export default function PlayerProfile({ params }: { params: Promise<{ slug: stri
                   {p.current_videogame && (
                     <ProfilePanel title={t("games")} icon={<GameIcon slug={p.current_videogame.slug || ""} size={14} />}>
                       <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface-0 text-text-1 ring-1 ring-white/5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-surface-0 text-text-1 ring-1 ring-border">
                           <GameIcon slug={p.current_videogame.slug || ""} size={18} className="text-text-1" />
                         </div>
                         <div className="min-w-0">
