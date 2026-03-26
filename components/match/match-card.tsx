@@ -33,10 +33,10 @@ export function MatchCard({ match }: { match: Match }) {
   const w2 = isFinished && match.winner_id === t2?.id;
 
   return (
-    <Link href={`/matches/${match.id}`}>
+    <Link href={`/matches/${match.id}`} className="block h-full">
       <div
         className={cn(
-          "rounded-xl border bg-surface-1 p-4 transition-all card-hover group",
+          "group flex h-full flex-col rounded-xl border bg-surface-1 p-4 transition-all card-hover",
           isLive ? "live-card" : "border-border hover:border-border-hover"
         )}
       >
@@ -77,7 +77,7 @@ export function MatchCard({ match }: { match: Match }) {
         </div>
 
         {/* Bottom: league + time */}
-        <div className="mt-3 pt-3 border-t border-border/50 flex items-center gap-2">
+        <div className="mt-auto pt-3 border-t border-border/50 flex items-center gap-2">
           {match.league?.image_url && (
             <div className="h-4 w-4 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
               <SafeImage src={match.league.image_url} alt="" width={12} height={12} className="object-contain" fallbackText={match.league?.name?.[0] || "?"} fallbackClassName="text-[8px] font-bold text-text-2" />

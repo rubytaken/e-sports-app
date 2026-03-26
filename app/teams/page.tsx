@@ -74,19 +74,21 @@ function Content() {
             <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
               {sortedTeams.map((team) => (
                 <StaggerItem key={team.id}>
-                  <Link href={`/teams/${team.slug}`}>
-                    <div className="rounded-xl border border-border bg-surface-1 p-4 text-center card-hover hover:border-border-hover">
+                  <Link href={`/teams/${team.slug}`} className="block h-full">
+                    <div className="card-hover flex h-full min-h-[156px] flex-col rounded-xl border border-border bg-surface-1 p-4 text-center hover:border-border-hover">
                       <div className="h-10 w-10 mx-auto rounded-md bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center mb-2">
                         {team.image_url ? <SafeImage src={team.image_url} alt={team.name} width={32} height={32} className="object-contain" fallbackText={team.acronym?.[0] || "?"} fallbackClassName="text-[10px] font-bold text-text-2" /> :
                           <span className="text-[10px] font-bold text-text-2">{team.acronym?.[0] || "?"}</span>}
                       </div>
                       <p className="text-xs font-medium text-text-0 truncate">{team.name}</p>
+                      <div className="mt-auto pt-3">
                       {team.current_videogame && (
                         <p className="text-[10px] text-text-2 mt-0.5 flex items-center justify-center gap-1">
                           <GameIcon slug={team.current_videogame.slug || ""} size={10} className="text-text-2" />
                           {team.current_videogame.name}
                         </p>
                       )}
+                      </div>
                     </div>
                   </Link>
                 </StaggerItem>

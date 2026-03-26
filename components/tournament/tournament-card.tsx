@@ -22,7 +22,7 @@ export function TournamentCard({ tournament }: { tournament: Tournament }) {
   const isOngoing = progress > 0 && progress < 100;
 
   return (
-    <Link href={`/tournaments/${tournament.id}`}>
+    <Link href={`/tournaments/${tournament.id}`} className="block h-full">
       <div className="rounded-xl border border-border bg-surface-1 p-4 transition-all card-hover hover:border-border-hover h-full flex flex-col">
         {/* Top: game + tier */}
         <div className="flex items-start justify-between gap-3 mb-3">

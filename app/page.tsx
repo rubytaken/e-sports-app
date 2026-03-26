@@ -38,8 +38,8 @@ function FeaturedMatch({ match }: { match: Match }) {
   const isLive = match.status === "running";
 
   return (
-    <Link href={`/matches/${match.id}`}>
-      <div className={`relative rounded-2xl border p-5 transition-all card-hover featured-gradient ${isLive ? "live-card" : "border-border hover:border-border-hover"}`}>
+    <Link href={`/matches/${match.id}`} className="block h-full">
+      <div className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all card-hover featured-gradient ${isLive ? "live-card" : "border-border hover:border-border-hover"}`}>
         {isLive && (
           <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-live/10 border border-live/20 px-2.5 py-1">
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />
@@ -88,7 +88,7 @@ function FeaturedMatch({ match }: { match: Match }) {
           </div>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-border/30 flex items-center gap-2">
+        <div className="mt-auto pt-3 border-t border-border/30 flex items-center gap-2">
           {match.league?.image_url && (
             <div className="h-4 w-4 rounded bg-surface-2/80 ring-1 ring-white/5 overflow-hidden flex items-center justify-center shrink-0">
               <SafeImage src={match.league.image_url} alt="" width={12} height={12} className="object-contain" fallbackText="" />

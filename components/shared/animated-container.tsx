@@ -43,7 +43,7 @@ export function PageTransition({ children, className }: { children: ReactNode; c
       variants={pageVariants}
       initial="hidden"
       animate="visible"
-      className={className}
+      className={["h-full", className].filter(Boolean).join(" ")}
     >
       {children}
     </motion.div>
