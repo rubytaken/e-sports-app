@@ -15,7 +15,7 @@ export function StatCard({ label, value, icon, accent, className }: StatCardProp
   return (
     <div
       className={cn(
-        "flex h-full flex-col rounded-xl border border-border bg-surface-1 p-4 stat-shimmer",
+        "flex h-full flex-col rounded-lg border border-border bg-surface-1 p-4 stat-shimmer",
         className
       )}
     >
@@ -42,7 +42,7 @@ export function WinRateCard({ label, wins, losses, className }: WinRateCardProps
   const rate = total > 0 ? Math.round((wins / total) * 100) : 0;
 
   return (
-    <div className={cn("flex h-full flex-col rounded-xl border border-border bg-surface-1 p-4", className)}>
+    <div className={cn("flex h-full flex-col rounded-lg border border-border bg-surface-1 p-4", className)}>
       <span className="text-[10px] font-semibold uppercase tracking-wider text-text-2">{label}</span>
       <div className="flex items-end gap-2 mt-2">
         <p className="text-2xl font-extrabold text-accent tracking-tight">{rate}%</p>
@@ -67,7 +67,7 @@ interface RecentFormProps {
 
 export function RecentFormCard({ label, results, className }: RecentFormProps) {
   return (
-    <div className={cn("flex h-full flex-col rounded-xl border border-border bg-surface-1 p-4", className)}>
+    <div className={cn("flex h-full flex-col rounded-lg border border-border bg-surface-1 p-4", className)}>
       <span className="text-[10px] font-semibold uppercase tracking-wider text-text-2">{label}</span>
       <div className="flex items-center gap-1 mt-3">
         {results.map((r, i) => (

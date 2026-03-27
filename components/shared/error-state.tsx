@@ -23,7 +23,7 @@ export function ErrorState({
       {onRetry && (
         <button
           onClick={onRetry}
-          className="mt-4 inline-flex items-center gap-2 rounded-xl bg-surface-2 border border-border px-5 py-2.5 text-xs font-medium text-text-1 hover:text-text-0 hover:bg-surface-3 transition-all"
+          className="mt-4 inline-flex items-center gap-2 rounded-lg bg-surface-2 border border-border px-5 py-2.5 text-xs font-medium text-text-1 hover:text-text-0 hover:bg-surface-3 transition-all"
         >
           <RefreshCw size={12} />
           Retry

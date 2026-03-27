@@ -8,7 +8,7 @@ interface StatusBadgeProps {
 export function StatusBadge({ status }: StatusBadgeProps) {
   if (status === "running") {
     return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-live/10 border border-live/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-live">
+      <span className="inline-flex items-center gap-1.5 rounded-md bg-live/10 border border-live/20 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-live">
         <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />
         Live
       </span>
@@ -25,7 +25,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   const { label, cls } = map[status] ?? map.not_started;
 
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider", cls)}>
+    <span className={cn("inline-flex items-center rounded-md border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider", cls)}>
       {label}
     </span>
   );

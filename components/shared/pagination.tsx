@@ -35,7 +35,7 @@ export function Pagination({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage <= 1}
-          className="h-9 w-9 flex items-center justify-center rounded-xl border border-border text-text-2 hover:text-text-0 hover:bg-surface-2 hover:border-border-hover disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          className="h-9 w-9 flex items-center justify-center rounded-lg border border-border text-text-2 hover:text-text-0 hover:bg-surface-2 hover:border-border-hover disabled:opacity-30 disabled:cursor-not-allowed transition-all"
           aria-label="Previous page"
         >
           <ChevronLeft size={15} />
@@ -49,7 +49,7 @@ export function Pagination({
               key={p}
               onClick={() => onPageChange(p)}
               className={cn(
-                "h-9 w-9 flex items-center justify-center rounded-xl text-xs font-semibold transition-all",
+                "h-9 w-9 flex items-center justify-center rounded-lg text-xs font-semibold transition-all",
                 p === currentPage
                   ? "bg-accent text-white shadow-sm shadow-accent/20"
                   : "border border-border text-text-2 hover:text-text-0 hover:bg-surface-2 hover:border-border-hover"
@@ -63,7 +63,7 @@ export function Pagination({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage >= totalPages}
-          className="h-9 w-9 flex items-center justify-center rounded-xl border border-border text-text-2 hover:text-text-0 hover:bg-surface-2 hover:border-border-hover disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          className="h-9 w-9 flex items-center justify-center rounded-lg border border-border text-text-2 hover:text-text-0 hover:bg-surface-2 hover:border-border-hover disabled:opacity-30 disabled:cursor-not-allowed transition-all"
           aria-label="Next page"
         >
           <ChevronRight size={15} />

@@ -9,24 +9,24 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-surface-1">
-      <div className="mx-auto max-w-[1200px] px-5 py-10">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+    <footer className="border-t border-border bg-surface-1 footer-stripe">
+      <div className="mx-auto max-w-[1200px] px-5 py-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
           {/* Left: branding */}
           <div>
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="h-7 w-7 rounded-[10px] bg-accent flex items-center justify-center btn-primary-shadow">
-                <Crosshair size={13} className="text-white" />
+              <div className="h-6 w-6 rounded-lg bg-accent flex items-center justify-center btn-primary-shadow">
+                <Crosshair size={12} className="text-white" />
               </div>
               <span className="text-sm font-bold tracking-tight text-text-0">
                 <span className="text-accent">e</span>-scores
               </span>
             </Link>
-            <p className="text-xs text-text-2 mt-2 max-w-xs">{t("footer.tagline")}</p>
+            <p className="text-xs text-text-2 mt-1.5 max-w-xs">{t("footer.tagline")}</p>
           </div>
 
           {/* Center: nav links */}
-          <nav className="flex flex-wrap gap-x-6 gap-y-2">
+          <nav className="flex flex-wrap gap-x-5 gap-y-2">
             <Link href="/matches" className="text-xs text-text-2 hover:text-accent transition-colors">
               {t("nav.matches")}
             </Link>
@@ -46,7 +46,7 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="h-px bg-border my-6" />
+        <div className="h-px bg-border my-5" />
 
         {/* Bottom */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2">

@@ -6,7 +6,7 @@ function Bone({ className, style }: { className?: string; style?: React.CSSPrope
 
 export function CardSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("rounded-xl border border-border bg-surface-1 p-4 space-y-3", className)}>
+    <div className={cn("rounded-lg border border-border bg-surface-1 p-4 space-y-3", className)}>
       <Bone className="h-3 w-3/4" />
       <Bone className="h-3 w-1/2" />
     </div>
@@ -15,19 +15,19 @@ export function CardSkeleton({ className }: { className?: string }) {
 
 export function MatchSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-surface-1 p-4">
+    <div className="rounded-lg border border-border bg-surface-1 p-4">
       <div className="flex items-center justify-between mb-3">
         <Bone className="h-5 w-16 rounded-full" />
         <Bone className="h-3 w-20" />
       </div>
       <div className="flex items-center gap-3">
-        <Bone className="h-10 w-10 rounded-xl shrink-0" />
+        <Bone className="h-10 w-10 rounded-lg shrink-0" />
         <Bone className="h-3 w-20" />
         <div className="mx-auto">
           <Bone className="h-6 w-14" />
         </div>
         <Bone className="h-3 w-20" />
-        <Bone className="h-10 w-10 rounded-xl shrink-0" />
+        <Bone className="h-10 w-10 rounded-lg shrink-0" />
       </div>
       <Bone className="h-2.5 w-40 mt-3" />
     </div>
@@ -74,7 +74,7 @@ export function ProfileSkeleton() {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Bone key={i} className="h-24 rounded-xl" />
+          <Bone key={i} className="h-24 rounded-lg" />
         ))}
       </div>
     </div>
@@ -83,7 +83,7 @@ export function ProfileSkeleton() {
 
 export function StatSkeleton() {
   return (
-    <div className="rounded-xl border border-border bg-surface-1 p-4 space-y-3">
+    <div className="rounded-lg border border-border bg-surface-1 p-4 space-y-3">
       <Bone className="h-2 w-16" />
       <Bone className="h-7 w-20" />
     </div>

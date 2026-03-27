@@ -10,7 +10,7 @@ import type { Match, Team } from "@/lib/api/types";
 function TeamLogo({ team, side }: { team?: Team; side: "l" | "r" }) {
   return (
     <div className={cn("flex items-center gap-3 flex-1 min-w-0", side === "r" && "flex-row-reverse text-right")}>
-      <div className="h-10 w-10 shrink-0 rounded-xl img-container overflow-hidden flex items-center justify-center">
+      <div className="h-10 w-10 shrink-0 rounded-lg img-container overflow-hidden flex items-center justify-center">
         {team?.image_url ? (
           <SafeImage src={team.image_url} alt={team.name} width={32} height={32} className="object-contain" fallbackText={team?.acronym?.[0] || "?"} fallbackClassName="text-[11px] font-bold text-text-2" />
         ) : (
@@ -36,7 +36,7 @@ export function MatchCard({ match }: { match: Match }) {
     <Link href={`/matches/${match.id}`} className="block h-full">
       <div
         className={cn(
-          "group flex h-full flex-col rounded-xl border bg-surface-1 p-4 transition-all card-hover",
+          "group flex h-full flex-col rounded-lg border bg-surface-1 p-4 transition-all card-hover",
           isLive ? "live-card" : "border-border hover:border-border-hover"
         )}
       >

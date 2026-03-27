@@ -17,7 +17,7 @@ export function NewsCard({ article, locale = "en" }: NewsCardProps) {
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-xl border border-border bg-surface-1 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 h-full"
+      className="group flex flex-col overflow-hidden rounded-lg border border-border bg-surface-1 transition-all hover:border-accent/30 hover:shadow-lg hover:shadow-accent/5 h-full"
     >
       {/* Image */}
       <div className="relative h-44 overflow-hidden bg-surface-2 shrink-0">
@@ -88,7 +88,7 @@ export function NewsCard({ article, locale = "en" }: NewsCardProps) {
 
 export function NewsCardSkeleton() {
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-surface-1 h-full">
+    <div className="overflow-hidden rounded-lg border border-border bg-surface-1 h-full">
       <div className="h-44 skeleton-shimmer" />
       <div className="p-4 space-y-3">
         <div className="flex items-center gap-2">

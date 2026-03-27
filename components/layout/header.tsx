@@ -70,13 +70,13 @@ export function Header() {
           ? "bg-surface-1 border-border shadow-sm"
           : "bg-surface-1/80 backdrop-blur-md border-transparent"
       )}>
-        <div className="mx-auto flex h-14 max-w-[1200px] items-center justify-between px-5">
+        <div className="mx-auto flex h-12 max-w-[1200px] items-center justify-between px-5">
           {/* Left: logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 group">
-            <div className="h-8 w-8 rounded-[10px] bg-accent flex items-center justify-center btn-primary-shadow group-hover:scale-105 transition-transform">
-              <Crosshair size={16} className="text-white" />
+            <div className="h-7 w-7 rounded-lg bg-accent flex items-center justify-center btn-primary-shadow group-hover:scale-105 transition-transform">
+              <Crosshair size={14} className="text-white" />
             </div>
-            <span className="text-base font-bold tracking-tight text-text-0">
+            <span className="text-[15px] font-bold tracking-tight text-text-0">
               <span className="text-accent">e</span>-scores
             </span>
           </Link>
@@ -91,7 +91,7 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative flex items-center gap-1.5 rounded-[10px] px-3 py-2 text-[13px] font-medium transition-all",
+                    "relative flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all",
                     active
                       ? "text-accent bg-accent/8"
                       : "text-text-1 hover:text-text-0 hover:bg-surface-2"
@@ -99,13 +99,6 @@ export function Header() {
                 >
                   <Icon size={14} className={active ? "text-accent" : ""} />
                   {t(item.key)}
-                  {active && (
-                    <motion.div
-                      layoutId="nav-indicator"
-                      className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full bg-accent"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
-                    />
-                  )}
                 </Link>
               );
             })}
@@ -116,7 +109,7 @@ export function Header() {
             {/* Search button */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2 rounded-[10px] border border-border bg-surface-0 px-3 py-1.5 text-xs text-text-2 hover:text-text-1 hover:border-border-hover transition-all"
+              className="hidden sm:flex items-center gap-2 rounded-lg border border-border bg-surface-0 px-3 py-1.5 text-xs text-text-2 hover:text-text-1 hover:border-border-hover transition-all shadow-inner shadow-surface-2/50"
             >
               <Search size={13} />
               <span className="text-text-2/60">Search...</span>
@@ -128,7 +121,7 @@ export function Header() {
             {/* Mobile search icon */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="sm:hidden rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
+              className="sm:hidden rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
               aria-label="Search"
             >
               <Search size={16} />
@@ -138,7 +131,7 @@ export function Header() {
             <div className="relative">
               <button
                 onClick={(e) => { e.stopPropagation(); setLangOpen(!langOpen); }}
-                className="rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
+                className="rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
                 aria-label="Language"
               >
                 <Globe size={15} />
@@ -151,7 +144,7 @@ export function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -4, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-1 w-40 rounded-xl border border-border bg-surface-1 shadow-lg overflow-hidden z-50"
+                    className="absolute right-0 top-full mt-1 w-40 rounded-lg border border-border bg-surface-1 shadow-lg overflow-hidden z-50"
                   >
                     {locales.map((l) => (
                       <button
@@ -177,7 +170,7 @@ export function Header() {
             {/* Theme toggle */}
             <button
               onClick={toggle}
-              className="rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
+              className="rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
@@ -186,7 +179,7 @@ export function Header() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden rounded-[10px] p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
+              className="md:hidden rounded-lg p-2 text-text-2 hover:text-text-0 hover:bg-surface-2 transition-colors"
               aria-label="Menu"
             >
               {mobileOpen ? <X size={18} /> : <Menu size={18} />}
@@ -212,7 +205,7 @@ export function Header() {
                       key={item.href}
                       href={item.href}
                       className={cn(
-                        "flex items-center gap-2.5 rounded-[10px] px-3 py-2.5 text-sm font-medium transition-colors",
+                        "flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                         isActive(item.href) ? "bg-accent/8 text-accent" : "text-text-1 hover:text-text-0 hover:bg-surface-2"
                       )}
                     >
@@ -231,7 +224,7 @@ export function Header() {
                         key={l}
                         onClick={() => setLocale(l)}
                         className={cn(
-                          "rounded-[10px] px-3 py-1.5 text-xs font-medium transition-colors",
+                          "rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
                           l === locale ? "bg-accent text-white btn-primary-shadow" : "bg-surface-2 text-text-2 hover:text-text-0"
                         )}
                       >

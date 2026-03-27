@@ -37,11 +37,11 @@ export function CustomTournamentCard({ tournament }: { tournament: CustomTournam
 
   return (
     <Link href={`/community/${tournament.id}`} className="block h-full">
-      <div className="rounded-xl border border-border bg-surface-1 p-4 transition-all card-hover hover:border-border-hover h-full flex flex-col">
+      <div className="rounded-lg border border-border bg-surface-1 p-4 transition-all card-hover hover:border-border-hover h-full flex flex-col">
         {/* Top: game + region */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="h-10 w-10 shrink-0 rounded-xl img-container overflow-hidden flex items-center justify-center">
+            <div className="h-10 w-10 shrink-0 rounded-lg img-container overflow-hidden flex items-center justify-center">
               <Gamepad2 size={20} className={gameColor} />
             </div>
             <div className="min-w-0">

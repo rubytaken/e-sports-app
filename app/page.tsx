@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { SafeImage } from "@/components/shared/safe-image";
 import { GameIcon } from "@/components/shared/game-icon";
-import { ArrowRight, Zap, Trophy, Users, Crosshair, TrendingUp } from "lucide-react";
+import { ArrowRight, Crosshair, TrendingUp } from "lucide-react";
 import { useMatchesRunning, useMatchesUpcoming, useMatchesPast } from "@/lib/api/matches";
 import { useTournamentsRunning } from "@/lib/api/tournaments";
 import { MatchCard } from "@/components/match/match-card";
@@ -16,20 +16,6 @@ import { useGameFilter } from "@/hooks/use-game-filter";
 import { useLocale } from "@/hooks/use-locale";
 import type { Match, Team } from "@/lib/api/types";
 
-function HeroStat({ icon, value, label, accent }: { icon: React.ReactNode; value: number; label: string; accent?: boolean }) {
-  return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-surface-1 px-4 py-3 stat-shimmer">
-      <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${accent ? "bg-accent/10 ring-1 ring-accent/20" : "bg-blue/10 ring-1 ring-blue/20"}`}>
-        {icon}
-      </div>
-      <div>
-        <p className="text-2xl font-extrabold text-text-0 leading-tight tabular-nums">{value}</p>
-        <p className="text-[10px] text-text-2 uppercase tracking-wider font-medium">{label}</p>
-      </div>
-    </div>
-  );
-}
-
 function FeaturedMatch({ match }: { match: Match }) {
   const t1 = match.opponents?.[0]?.opponent as Team | undefined;
   const t2 = match.opponents?.[1]?.opponent as Team | undefined;
@@ -39,7 +25,7 @@ function FeaturedMatch({ match }: { match: Match }) {
 
   return (
     <Link href={`/matches/${match.id}`} className="block h-full">
-      <div className={`relative flex h-full flex-col rounded-2xl border p-5 transition-all card-hover featured-gradient ${isLive ? "live-card" : "border-border hover:border-border-hover"}`}>
+      <div className={`relative flex h-full flex-col rounded-lg border p-5 transition-all card-hover featured-gradient ${isLive ? "live-card" : "border-border hover:border-border-hover"}`}>
         {isLive && (
           <div className="absolute top-3 right-3 flex items-center gap-1.5 rounded-full bg-live/10 border border-live/20 px-2.5 py-1">
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />
@@ -58,7 +44,7 @@ function FeaturedMatch({ match }: { match: Match }) {
         <div className="flex items-center justify-between">
           {/* Team 1 */}
           <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="h-14 w-14 rounded-2xl img-container overflow-hidden flex items-center justify-center">
+            <div className="h-14 w-14 rounded-lg img-container overflow-hidden flex items-center justify-center">
               {t1?.image_url ? (
                 <SafeImage src={t1.image_url} alt={t1.name} width={40} height={40} className="object-contain" fallbackText={t1?.acronym?.[0] || "?"} fallbackClassName="text-lg font-bold text-text-2" />
               ) : (
@@ -77,7 +63,7 @@ function FeaturedMatch({ match }: { match: Match }) {
 
           {/* Team 2 */}
           <div className="flex flex-col items-center gap-2 flex-1">
-            <div className="h-14 w-14 rounded-2xl img-container overflow-hidden flex items-center justify-center">
+            <div className="h-14 w-14 rounded-lg img-container overflow-hidden flex items-center justify-center">
               {t2?.image_url ? (
                 <SafeImage src={t2.image_url} alt={t2.name} width={40} height={40} className="object-contain" fallbackText={t2?.acronym?.[0] || "?"} fallbackClassName="text-lg font-bold text-text-2" />
               ) : (
@@ -105,12 +91,12 @@ function Section({ title, href, count, viewAll, children }: {
   title: string; href: string; count?: number; viewAll: string; children: React.ReactNode;
 }) {
   return (
-    <section className="mb-12">
-      <div className="flex items-center justify-between mb-5">
+    <section className="mb-10">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <h2 className="text-base font-bold text-text-0">{title}</h2>
+          <h2 className="text-[15px] font-bold text-text-0">{title}</h2>
           {!!count && count > 0 && (
-            <span className="rounded-lg bg-surface-2 px-2 py-0.5 text-[10px] text-text-2 tabular-nums font-medium">{count}</span>
+            <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] text-text-2 tabular-nums font-medium">{count}</span>
           )}
         </div>
         <Link href={href} className="flex items-center gap-1.5 text-xs text-text-2 hover:text-accent transition-colors font-medium">
@@ -134,7 +120,7 @@ function Skeletons({ n = 4, type = "match" }: { n?: number; type?: "match" | "ca
 
 function Empty({ text }: { text: string }) {
   return (
-    <div className="rounded-xl border border-border/50 bg-surface-1 py-12 text-center">
+    <div className="rounded-lg border border-border/50 bg-surface-1 py-12 text-center">
       <p className="text-xs text-text-2">{text}</p>
     </div>
   );
@@ -163,56 +149,49 @@ function Dashboard() {
     <PageTransition>
       {/* Hero Section */}
       <div className="hero-gradient border-b border-border">
-        <div className="mx-auto max-w-[1200px] px-5 py-14 sm:py-20 relative">
+        <div className="mx-auto max-w-[1200px] px-5 py-12 sm:py-16 relative">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-accent/8 border border-accent/15 px-3 py-1 mb-5">
+            <div className="inline-flex items-center gap-2 rounded-full bg-accent/8 border border-accent/15 px-3 py-1 mb-4">
               <Crosshair size={12} className="text-accent" />
               <span className="text-[11px] text-accent font-semibold uppercase tracking-wider">Live Esports Tracker</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-text-0 leading-[1.1]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-text-0 leading-[1.1]">
               {t("home.title")}
             </h1>
-            <p className="mt-4 text-sm sm:text-base text-text-1 max-w-lg leading-relaxed">{t("home.subtitle")}</p>
+            <p className="mt-3 text-sm sm:text-base text-text-1 max-w-lg leading-relaxed">{t("home.subtitle")}</p>
 
-            {liveTotal > 0 && (
-              <Link href="/matches" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-live/10 border border-live/20 px-5 py-2.5 text-xs font-semibold text-live transition-all hover:bg-live/15 neon-border-pulse">
-                <span className="live-dot h-2 w-2 rounded-full bg-live" />
-                {liveTotal} {t("home.live_now")}
-                <ArrowRight size={12} />
-              </Link>
-            )}
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-10">
-            <HeroStat
-              icon={<Zap size={18} className="text-accent" />}
-              value={liveTotal}
-              label={t("home.hero.stats.live")}
-              accent
-            />
-            <HeroStat
-              icon={<Trophy size={18} className="text-blue" />}
-              value={tournamentsTotal}
-              label={t("home.hero.stats.tournaments")}
-            />
-            <HeroStat
-              icon={<TrendingUp size={18} className="text-accent" />}
-              value={upcomingTotal}
-              label={t("home.section.upcoming")}
-              accent
-            />
+            {/* Inline stats badges instead of big stat cards */}
+            <div className="flex flex-wrap items-center gap-3 mt-6">
+              {liveTotal > 0 && (
+                <Link href="/matches" className="inline-flex items-center gap-2 rounded-full bg-live/10 border border-live/20 px-4 py-2 text-xs font-semibold text-live transition-all hover:bg-live/15 neon-border-pulse">
+                  <span className="live-dot h-2 w-2 rounded-full bg-live" />
+                  {liveTotal} {t("home.live_now")}
+                  <ArrowRight size={12} />
+                </Link>
+              )}
+              {tournamentsTotal > 0 && (
+                <Link href="/tournaments" className="inline-flex items-center gap-2 rounded-full bg-blue/8 border border-blue/15 px-4 py-2 text-xs font-semibold text-blue transition-all hover:bg-blue/12">
+                  {tournamentsTotal} {t("home.hero.stats.tournaments")}
+                </Link>
+              )}
+              {upcomingTotal > 0 && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 border border-border px-4 py-2 text-xs font-medium text-text-1">
+                  <TrendingUp size={12} />
+                  {upcomingTotal} {t("home.section.upcoming")}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-[1200px] px-5 py-10">
-        <div className="mb-8"><GameFilter /></div>
+      <div className="mx-auto max-w-[1200px] px-5 py-8">
+        <div className="mb-6"><GameFilter /></div>
 
         {/* Featured Live Matches */}
         {liveMatches.length > 0 && (
           <Section title={t("home.section.live")} href="/matches" count={liveTotal} viewAll={t("view_all")}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-2">
               {liveMatches.slice(0, 2).map((m) => (
                 <FeaturedMatch key={m.id} match={m} />
               ))}

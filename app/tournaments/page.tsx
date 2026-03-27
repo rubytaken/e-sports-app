@@ -85,22 +85,22 @@ function Content() {
 
         <div className="flex flex-wrap items-center gap-4 mb-6">
           {/* Tabs */}
-          <div className="flex gap-1 border-b border-border">
+          <div className="flex flex-wrap gap-1.5">
             {tabs.map((tb) => (
               <button key={tb.key} onClick={() => handleTabChange(tb.key)}
                 className={cn(
-                  "relative px-4 py-2.5 text-xs font-semibold transition-all",
-                  tab === tb.key ? "text-accent" : "text-text-2 hover:text-text-1"
+                  "tab-pill",
+                  tab === tb.key && "tab-pill-active"
                 )}>
                 {tb.label}
                 {tb.key === "community" && customQ.data?.length ? (
-                  <span className="ml-1.5 rounded-full bg-accent/10 px-1.5 py-0.5 text-[9px] font-bold text-accent tabular-nums">
+                  <span className={cn(
+                    "ml-1 rounded-full px-1.5 py-0.5 text-[9px] font-bold tabular-nums",
+                    tab === tb.key ? "bg-white/20 text-white" : "bg-accent/10 text-accent"
+                  )}>
                     {customQ.data.length}
                   </span>
                 ) : null}
-                {tab === tb.key && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-accent" />
-                )}
               </button>
             ))}
           </div>
@@ -109,14 +109,12 @@ function Content() {
           {!isCommunity && (
             <>
               <div className="h-5 w-px bg-border hidden sm:block" />
-              <div className="flex gap-1">
+              <div className="flex gap-1.5">
                 {tiers.map((ti) => (
                   <button key={ti.key} onClick={() => handleTierChange(ti.key)}
                     className={cn(
-                      "rounded-lg border px-3 py-1.5 text-[11px] font-bold transition-all",
-                      tier === ti.key
-                        ? "bg-accent/8 text-accent border-accent/20"
-                        : "border-border text-text-2 hover:text-text-1 hover:border-border-hover",
+                      "tab-pill",
+                      tier === ti.key && "tab-pill-active",
                       ti.style && tier !== ti.key ? ti.style : ""
                     )}>
                     {ti.label}

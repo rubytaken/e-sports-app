@@ -13,21 +13,19 @@ export function GameFilter() {
     return (
       <div className="flex flex-wrap gap-2">
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i} className="h-8 w-20 rounded-lg skeleton-shimmer" />
+          <div key={i} className="h-8 w-20 rounded-full skeleton-shimmer" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       <button
         onClick={clearGame}
         className={cn(
-          "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all",
-          !activeGame
-            ? "game-tab-active border-accent/20"
-            : "border-border bg-surface-1 text-text-2 hover:text-text-1 hover:border-border-hover"
+          "tab-pill",
+          !activeGame && "tab-pill-active"
         )}
       >
         <GameIcon slug="generic" size={13} />
@@ -40,10 +38,8 @@ export function GameFilter() {
             key={game.id}
             onClick={() => setGame(game.slug)}
             className={cn(
-              "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all",
-              active
-                ? "game-tab-active border-accent/20"
-                : "border-border bg-surface-1 text-text-2 hover:text-text-1 hover:border-border-hover"
+              "tab-pill",
+              active && "tab-pill-active"
             )}
           >
             <GameIcon slug={game.slug} size={13} />

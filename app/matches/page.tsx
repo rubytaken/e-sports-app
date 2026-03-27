@@ -66,24 +66,19 @@ function Content() {
         <div className="mb-6"><GameFilter /></div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-6 border-b border-border">
+        <div className="flex flex-wrap gap-1.5 mb-6">
           {tabs.map((tb) => (
             <button key={tb.key} onClick={() => handleTabChange(tb.key)}
               className={cn(
-                "relative px-4 py-2.5 text-xs font-semibold transition-all",
-                tab === tb.key
-                  ? "text-accent"
-                  : "text-text-2 hover:text-text-1"
+                "tab-pill",
+                tab === tb.key && "tab-pill-active"
               )}>
               <span className="flex items-center gap-1.5">
                 {tb.live && tab === tb.key && (
-                  <span className="live-dot h-1.5 w-1.5 rounded-full bg-live" />
+                  <span className="live-dot h-1.5 w-1.5 rounded-full bg-white/80" />
                 )}
                 {tb.label}
               </span>
-              {tab === tb.key && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-accent" />
-              )}
             </button>
           ))}
         </div>
@@ -100,10 +95,8 @@ function Content() {
                     setPage(1);
                   }}
                   className={cn(
-                    "rounded-lg border px-3 py-1.5 text-xs font-medium transition-all",
-                    active
-                      ? "bg-accent/10 text-accent border-accent/20"
-                      : "border-border bg-surface-1 text-text-2 hover:text-text-1 hover:border-border-hover"
+                    "tab-pill",
+                    active && "tab-pill-active"
                   )}
                 >
                   {filter.label}
