@@ -9,3 +9,12 @@ swe492_E-SportsAPP_report_Emre_Tosman_20210999.pdf
 reports/myreport.md
 reports/swe492-esports-app-report-tr.md
 reports/swe492-esports-app-report-en.md
+
+# Documentation & artifacts
+feature_breakdown.md
+feature_breakdown.pdf
+diagram.png
+
+# Build artifacts
+tsconfig.tsbuildinfo
+skills-lock.json
